@@ -32,6 +32,7 @@ namespace MyShogi.Model.Resource.Sounds
         /// </summary>
         public void Release()
         {
+			/*
             if (player != null)
             {
                 //player.Stop();
@@ -40,6 +41,7 @@ namespace MyShogi.Model.Resource.Sounds
                 player.Close();
                 player = null;
             }
+			*/
         }
 
         /// <summary>
@@ -49,11 +51,13 @@ namespace MyShogi.Model.Resource.Sounds
         {
             try
             {
+				/*
                 if (player == null)
                 {
                     player = new MediaPlayer();
                     player.Open(new System.Uri(Path.GetFullPath(filename)));
                 }
+				*/
 
                 /*
                 // player.MediaEnded += (sender,args) => { playing = false; };
@@ -63,8 +67,10 @@ namespace MyShogi.Model.Resource.Sounds
                 */
 
                 // Positionをセットしなおすと再度Play()で頭から再生できるようだ。なんぞこの裏技。
+				/*
                 player.Position = TimeSpan.Zero;
                 player.Play();
+				*/
 
             } catch {  }
         }
@@ -76,10 +82,11 @@ namespace MyShogi.Model.Resource.Sounds
         public bool IsPlaying()
         {
             // 終了イベント捕捉できないので再生カーソルの位置を見て判定する(´ω｀)
-            return player != null &&
-                (! player.NaturalDuration.HasTimeSpan
+            //return player != null &&
+            //    (! player.NaturalDuration.HasTimeSpan
                 /* これtrueになってからでないと、TimeSpanにアクセスできない。また、これがfalseである間は、再生準備中。*/
-                || player.Position != player.NaturalDuration.TimeSpan);
+            //    || player.Position != player.NaturalDuration.TimeSpan);
+			return false;
         }
 
         public void Dispose()
@@ -90,7 +97,7 @@ namespace MyShogi.Model.Resource.Sounds
         /// <summary>
         /// 読み込んでいるサウンド
         /// </summary>
-        private MediaPlayer player = null;
+        //private MediaPlayer player = null;
 
         /// <summary>
         /// 読み込んでいるサウンドファイル名
