@@ -63,6 +63,9 @@ namespace MyShogi.App
             //EngineConsiderationWindowEnableWhenVsHuman = true;
             //ConsiderationWindowFollowMainWindow = true;
             ConsiderationMultiPV = 5;
+
+			// -- フォント
+			Font = "Hiragino Kaku Gothic Pro W3";
         }
 
         /// <summary>
@@ -587,6 +590,13 @@ namespace MyShogi.App
         /// </summary>
         [DataMember]
         public int ConsiderationMultiPV { get; set; }
+
+        /// <summary>
+        /// GUIで使うフォント。
+        /// デフォルト : "ヒラギノ丸ゴ ProN W4"
+        /// </summary>
+        [DataMember]
+        public string Font { get; set; }
 
         #endregion
 

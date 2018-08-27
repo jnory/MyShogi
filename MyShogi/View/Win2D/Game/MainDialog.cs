@@ -1179,6 +1179,7 @@ namespace MyShogi.View.Win2D
             {
                 // MenuStripだと非アクティブ状態からのクリックで反応しないのでMenuStripExを使う。
                 var menu = new MenuStripEx();
+                menu.Font = new Font(TheApp.app.Config.Font, 10);
 
                 //レイアウトロジックを停止する
                 SuspendLayout();
@@ -1231,6 +1232,7 @@ namespace MyShogi.View.Win2D
                 {
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "棋譜を開く(&O)";
                         item.ShortcutKeys = Keys.Control | Keys.O;
                         item.ShowShortcutKeys = true;
@@ -1264,6 +1266,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "棋譜の上書き保存(&S)";
                         item.ShortcutKeys = Keys.Control | Keys.S;
                         item.ShowShortcutKeys = true;
@@ -1285,6 +1288,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "棋譜に名前をつけて保存(&N)";
                         item.ShortcutKeys = Keys.Control | Keys.S | Keys.Shift;
                         item.ShowShortcutKeys = true;
@@ -1346,6 +1350,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "局面の保存(&I)"; // Pは印刷(Print)で使いたいため、positionの"I"をショートカットキーにする。
                         item.Click += (sender, e) =>
                         {
@@ -1404,9 +1409,11 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "クリップボードに棋譜/局面をコピー(&C)";
 
                         var itemk1 = new ToolStripMenuItem();
+                        itemk1.Font = new Font(TheApp.app.Config.Font, 10);
                         itemk1.Text = "棋譜KIF形式(&1)";
                         itemk1.ShortcutKeys = Keys.Control | Keys.C;
                         itemk1.ShowShortcutKeys = true;
@@ -1415,26 +1422,31 @@ namespace MyShogi.View.Win2D
                         item.DropDownItems.Add(itemk1);
 
                         var itemk2 = new ToolStripMenuItem();
+                        itemk2.Font = new Font(TheApp.app.Config.Font, 10);
                         itemk2.Text = "棋譜KI2形式(&2)";
                         itemk2.Click += (sender, e) => { gameServer.KifuWriteClipboardCommand(KifuFileType.KI2); };
                         item.DropDownItems.Add(itemk2);
 
                         var itemk3 = new ToolStripMenuItem();
+                        itemk3.Font = new Font(TheApp.app.Config.Font, 10);
                         itemk3.Text = "棋譜CSA形式(&3)";
                         itemk3.Click += (sender, e) => { gameServer.KifuWriteClipboardCommand(KifuFileType.CSA); };
                         item.DropDownItems.Add(itemk3);
 
                         var itemk4 = new ToolStripMenuItem();
+                        itemk4.Font = new Font(TheApp.app.Config.Font, 10);
                         itemk4.Text = "棋譜SFEN形式(&4)";
                         itemk4.Click += (sender, e) => { gameServer.KifuWriteClipboardCommand(KifuFileType.SFEN); };
                         item.DropDownItems.Add(itemk4);
 
                         var itemk5 = new ToolStripMenuItem();
+                        itemk5.Font = new Font(TheApp.app.Config.Font, 10);
                         itemk5.Text = "棋譜PSN形式(&5)";
                         itemk5.Click += (sender, e) => { gameServer.KifuWriteClipboardCommand(KifuFileType.PSN); };
                         item.DropDownItems.Add(itemk5);
 
                         var itemk6 = new ToolStripMenuItem();
+                        itemk6.Font = new Font(TheApp.app.Config.Font, 10);
                         itemk6.Text = "棋譜PSN2形式(&6)";
                         itemk6.Click += (sender, e) => { gameServer.KifuWriteClipboardCommand(KifuFileType.PSN2); };
                         item.DropDownItems.Add(itemk6);
@@ -1442,26 +1454,31 @@ namespace MyShogi.View.Win2D
                         item.DropDownItems.Add(new ToolStripSeparator());
 
                         var itemp1 = new ToolStripMenuItem();
+                        itemp1.Font = new Font(TheApp.app.Config.Font, 10);
                         itemp1.Text = "局面KIF(BOD)形式(&A)";
                         itemp1.Click += (sender, e) => { gameServer.PositionWriteClipboardCommand(KifuFileType.KI2); };
                         item.DropDownItems.Add(itemp1);
 
                         var itemp2 = new ToolStripMenuItem();
+                        itemp2.Font = new Font(TheApp.app.Config.Font, 10);
                         itemp2.Text = "局面CSA形式(&B)";
                         itemp2.Click += (sender, e) => { gameServer.PositionWriteClipboardCommand(KifuFileType.CSA); };
                         item.DropDownItems.Add(itemp2);
 
                         var itemp3 = new ToolStripMenuItem();
+                        itemp3.Font = new Font(TheApp.app.Config.Font, 10);
                         itemp3.Text = "局面SFEN形式(&C)";
                         itemp3.Click += (sender, e) => { gameServer.PositionWriteClipboardCommand(KifuFileType.SFEN); };
                         item.DropDownItems.Add(itemp3);
 
                         var itemp4 = new ToolStripMenuItem();
+                        itemp4.Font = new Font(TheApp.app.Config.Font, 10);
                         itemp4.Text = "局面PSN形式(&D)";
                         itemp4.Click += (sender, e) => { gameServer.PositionWriteClipboardCommand(KifuFileType.PSN); };
                         item.DropDownItems.Add(itemp4);
 
                         var itemp5 = new ToolStripMenuItem();
+                        itemp5.Font = new Font(TheApp.app.Config.Font, 10);
                         itemp5.Text = "局面PSN2形式(&E)";
                         itemp5.Click += (sender, e) => { gameServer.PositionWriteClipboardCommand(KifuFileType.PSN2); };
                         item.DropDownItems.Add(itemp5);
@@ -1471,6 +1488,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "クリップボードから棋譜/局面を貼り付け(&P)";
                         // このショートカットキーを設定すると対局中などにも貼り付けが出来てしまうが、
                         // GameModeを見て、対局中などには処理しないようにしてある。
@@ -1485,6 +1503,7 @@ namespace MyShogi.View.Win2D
                     // -- 「棋譜編集」
 
                     var kifu_edit = new ToolStripMenuItem();
+                    kifu_edit.Font = new Font(TheApp.app.Config.Font, 10);
                     kifu_edit.Text = "棋譜編集(&K)"; // Kifu edit
                     kifu_edit.Enabled = !inTheGame;
                     item_file.DropDownItems.Add(kifu_edit);
@@ -1492,6 +1511,7 @@ namespace MyShogi.View.Win2D
                     // -- 「棋譜編集」配下のメニュー
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "本譜以外の分岐をクリアする(&C)"; // Clear
                         item.Click += (sender, e) => {
                             if (TheApp.app.MessageShow("この操作により現在の棋譜上の本譜以外の分岐は削除されます。",
@@ -1508,11 +1528,13 @@ namespace MyShogi.View.Win2D
                     // -- 設定の初期化
                     {
                         var item_init = new ToolStripMenuItem();
+                        item_init.Font = new Font(TheApp.app.Config.Font, 10);
                         item_init.Text = "設定の初期化(&I)";
                         item_file.DropDownItems.Add(item_init);
 
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Text = "各エンジン設定の初期化";
                             item.Click += (sender, e) => {
                                 if (TheApp.app.MessageShow("すべてのエンジン設定を初期化しますか？「OK」を押すと初期化され、次回起動時に反映されます。",MessageShowType.ConfirmationOkCancel) == DialogResult.OK)
@@ -1525,6 +1547,7 @@ namespace MyShogi.View.Win2D
 
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Text = "各表示設定などの初期化";
                             item.Click += (sender, e) => {
                                 if (TheApp.app.MessageShow("すべての表示設定・音声設定を初期化しますか？「OK」を押すと初期化され、次回起動時に反映されます。", MessageShowType.ConfirmationOkCancel) == DialogResult.OK)
@@ -1540,6 +1563,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "終了(&X)";
                         item.Click += (sender, e) => { TheApp.app.ApplicationExit(); };
                         item_file.DropDownItems.Add(item);
@@ -1595,6 +1619,7 @@ namespace MyShogi.View.Win2D
                 }
 
                 var item_playgame = new ToolStripMenuItem();
+                item_playgame.Font = new Font(TheApp.app.Config.Font, 10);
                 item_playgame.Text = "対局(&P)"; // PlayGame
                 item_playgame.Enabled = gameServer != null && !gameServer.InTheGame; // 対局中はこのメニューを無効化
                 menu.Items.Add(item_playgame);
@@ -1603,6 +1628,7 @@ namespace MyShogi.View.Win2D
                 {
                     { // -- 通常対局
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "通常対局(&N)"; // NormalGame
                         item.ShortcutKeys = Keys.Control | Keys.N; // NewGameのN
                         item.ShowShortcutKeys = true;
@@ -1623,6 +1649,7 @@ namespace MyShogi.View.Win2D
                     { // -- 検討モード
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = consideration ? "検討モードを終了する(&C)" : "検討エンジン設定(&C)"; // ConsiderationMode
 
                         // toolStripのボタンのテキストを検討モードであるかどうかにより変更する。
@@ -1646,6 +1673,7 @@ namespace MyShogi.View.Win2D
                     { // -- 検討モード
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = mate_consideration ? "詰検討モードを終了する(&M)" : "詰検討エンジン設定(&M)"; // MateMode
 
                         // toolStripのボタンのテキストを検討モードであるかどうかにより変更する。
@@ -1667,6 +1695,7 @@ namespace MyShogi.View.Win2D
 
 
                 var item_display = new ToolStripMenuItem();
+                item_display.Font = new Font(TheApp.app.Config.Font, 10);
                 item_display.Text = "表示(&D)"; // Display
                 menu.Items.Add(item_display);
 
@@ -1674,6 +1703,7 @@ namespace MyShogi.View.Win2D
                 {
                     { // -- 盤面反転
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "盤面反転(&R)"; // Reverse
                         item.Checked = boardReverse;
                         item.Click += (sender, e) => { gameServer.BoardReverse ^= true; };
@@ -1684,21 +1714,25 @@ namespace MyShogi.View.Win2D
                     { // -- 段・筋の画像の選択メニュー
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "筋・段の表示(&F)"; // FileRank
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "非表示(&I)"; // Invisible
                         item1.Checked = config.BoardNumberImageVersion == 0;
                         item1.Click += (sender, e) => { config.BoardNumberImageVersion = 0; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "標準(&N)"; // Normal
                         item2.Checked = config.BoardNumberImageVersion == 1;
                         item2.Click += (sender, e) => { config.BoardNumberImageVersion = 1; };
                         item.DropDownItems.Add(item2);
 
                         var item3 = new ToolStripMenuItem();
+                        item3.Font = new Font(TheApp.app.Config.Font, 10);
                         item3.Text = "Chess式(&C)"; // Chess
                         item3.Checked = config.BoardNumberImageVersion == 2;
                         item3.Click += (sender, e) => { config.BoardNumberImageVersion = 2; };
@@ -1711,27 +1745,32 @@ namespace MyShogi.View.Win2D
                         // -- 棋譜ウィンドウの棋譜の形式
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "棋譜ウィンドウの棋譜の表示形式(&D)"; // kifu Display
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "標準(KI2形式)「６七金右」(&K)"; // KI2形式
                         item1.Checked = config.KifuWindowKifuVersion == 0;
                         item1.Click += (sender, e) => { if (config.KifuWindowKifuVersion != 0) { WarningRestart(); config.KifuWindowKifuVersion = 0; } };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "簡易(KIF形式)「６七金(58)」(&I)"; // KIF形式
                         item2.Checked = config.KifuWindowKifuVersion == 1;
                         item2.Click += (sender, e) => { if (config.KifuWindowKifuVersion != 1) { WarningRestart(); config.KifuWindowKifuVersion = 1; } };
                         item.DropDownItems.Add(item2);
 
                         var item3 = new ToolStripMenuItem();
+                        item3.Font = new Font(TheApp.app.Config.Font, 10);
                         item3.Text = "CSA(CSA形式)「5867KI」(&C)";    // CSA形式
                         item3.Checked = config.KifuWindowKifuVersion == 2;
                         item3.Click += (sender, e) => { if (config.KifuWindowKifuVersion != 2) { WarningRestart(); config.KifuWindowKifuVersion = 2; } };
                         item.DropDownItems.Add(item3);
 
                         var item4 = new ToolStripMenuItem();
+                        item4.Font = new Font(TheApp.app.Config.Font, 10);
                         item4.Text = "Chess式(SFEN形式)「5h6g」(&S)";    // SFEN形式
                         item4.Checked = config.KifuWindowKifuVersion == 3;
                         item4.Click += (sender, e) => { if (config.KifuWindowKifuVersion != 3) { WarningRestart(); config.KifuWindowKifuVersion = 3; } };
@@ -1744,27 +1783,32 @@ namespace MyShogi.View.Win2D
                         // -- 棋譜ウィンドウの棋譜の形式
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "検討ウィンドウの棋譜の表示形式(&E)"; // &Dの次だから&E .. consideration 
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "標準(KI2形式)「６七金右」(&K)"; // KI2形式
                         item1.Checked = config.ConsiderationWindowKifuVersion == 0;
                         item1.Click += (sender, e) => { if (config.ConsiderationWindowKifuVersion != 0) { WarningRestart(); config.ConsiderationWindowKifuVersion = 0; } };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "簡易(KIF形式)「６七金(58)」(&I)"; // KIF形式
                         item2.Checked = config.ConsiderationWindowKifuVersion == 1;
                         item2.Click += (sender, e) => { if (config.ConsiderationWindowKifuVersion != 1) { WarningRestart(); config.ConsiderationWindowKifuVersion = 1; } };
                         item.DropDownItems.Add(item2);
 
                         var item3 = new ToolStripMenuItem();
+                        item3.Font = new Font(TheApp.app.Config.Font, 10);
                         item3.Text = "CSA(CSA形式)「5867KI」(&C)";    // CSA形式
                         item3.Checked = config.ConsiderationWindowKifuVersion == 2;
                         item3.Click += (sender, e) => { if (config.ConsiderationWindowKifuVersion != 2) { WarningRestart(); config.ConsiderationWindowKifuVersion = 2; } };
                         item.DropDownItems.Add(item3);
 
                         var item4 = new ToolStripMenuItem();
+                        item4.Font = new Font(TheApp.app.Config.Font, 10);
                         item4.Text = "Chess式(SFEN形式)「5h6g」(&S)";    // SFEN形式
                         item4.Checked = config.ConsiderationWindowKifuVersion == 3;
                         item4.Click += (sender, e) => { if (config.ConsiderationWindowKifuVersion != 3) { WarningRestart(); config.ConsiderationWindowKifuVersion = 3; } };
@@ -1776,15 +1820,18 @@ namespace MyShogi.View.Win2D
                     { // -- 盤画像の選択メニュー
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "盤画像(&B)"; // BoardImage
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "白色(&W)"; // White
                         item1.Checked = config.BoardImageVersion == 1;
                         item1.Click += (sender, e) => { config.BoardImageVersion = 1; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "黄色(&Y)"; // Yellow
                         item2.Checked = config.BoardImageVersion == 2;
                         item2.Click += (sender, e) => { config.BoardImageVersion = 2; };
@@ -1796,15 +1843,18 @@ namespace MyShogi.View.Win2D
                     { // -- 盤画像の選択メニュー
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "畳画像(&I)"; // tatamI
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "薄い(&L)"; // Light Color
                         item1.Checked = config.TatamiImageVersion == 1;
                         item1.Click += (sender, e) => { config.TatamiImageVersion = 1; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "濃い(&D)"; // Dark Color
                         item2.Checked = config.TatamiImageVersion == 2;
                         item2.Click += (sender, e) => { config.TatamiImageVersion = 2; };
@@ -1816,21 +1866,25 @@ namespace MyShogi.View.Win2D
                     { // -- 駒画像の選択メニュー
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "駒画像(&P)"; // PieceImage
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "一文字駒(&1)"; // 1文字
                         item1.Checked = config.PieceImageVersion == 2;
                         item1.Click += (sender, e) => { config.PieceImageVersion = 2; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "二文字駒(&2)"; // 2文字
                         item2.Checked = config.PieceImageVersion == 1;
                         item2.Click += (sender, e) => { config.PieceImageVersion = 1; };
                         item.DropDownItems.Add(item2);
 
                         var item3 = new ToolStripMenuItem();
+                        item3.Font = new Font(TheApp.app.Config.Font, 10);
                         item3.Text = "英文字駒(&A)"; // Alphabet
                         item3.Checked = config.PieceImageVersion == 3;
                         item3.Click += (sender, e) => { config.PieceImageVersion = 3; };
@@ -1842,15 +1896,18 @@ namespace MyShogi.View.Win2D
                     { // -- 成駒の画像の選択メニュー
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "成駒の色(&O)"; // promote piece
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "黒(&B)"; // Black
                         item1.Checked = config.PromotePieceColorType == 0;
                         item1.Click += (sender, e) => { config.PromotePieceColorType = 0; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "赤(&R)"; // Red
                         item2.Checked = config.PromotePieceColorType == 1;
                         item2.Click += (sender, e) => { config.PromotePieceColorType = 1; };
@@ -1862,27 +1919,32 @@ namespace MyShogi.View.Win2D
                     // -- 最終手のエフェクト
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "最終手の移動元(&I)"; // 空きがない I,J ,K ,Lにしとく .. From
 
                         var item0 = new ToolStripMenuItem();
+                        item0.Font = new Font(TheApp.app.Config.Font, 10);
                         item0.Text = "なし(&N)"; // None
                         item0.Checked = config.LastMoveFromColorType == 0;
                         item0.Click += (sender, e) => { config.LastMoveFromColorType = 0; };
                         item.DropDownItems.Add(item0);
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "朱色(&R)"; // Red
                         item1.Checked = config.LastMoveFromColorType == 1;
                         item1.Click += (sender, e) => { config.LastMoveFromColorType = 1; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "青色(&B)"; // Blue
                         item2.Checked = config.LastMoveFromColorType == 2;
                         item2.Click += (sender, e) => { config.LastMoveFromColorType = 2; };
                         item.DropDownItems.Add(item2);
 
                         var item3 = new ToolStripMenuItem();
+                        item3.Font = new Font(TheApp.app.Config.Font, 10);
                         item3.Text = "緑色(&G)"; // Green
                         item3.Checked = config.LastMoveFromColorType == 3;
                         item3.Click += (sender, e) => { config.LastMoveFromColorType = 3; };
@@ -1890,6 +1952,7 @@ namespace MyShogi.View.Win2D
 
 #if false
                         var item4 = new ToolStripMenuItem();
+                        item4.Font = new Font(TheApp.app.Config.Font, 10);
                         item4.Text = "駒の影のみ(&S)"; // Shadow
                         item4.Checked = config.LastMoveFromColorType == 4;
                         item4.Click += (sender, e) => { config.LastMoveFromColorType = 4; };
@@ -1900,27 +1963,32 @@ namespace MyShogi.View.Win2D
                     }
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "最終手の移動先(&J)"; // .. to
 
                         var item0 = new ToolStripMenuItem();
+                        item0.Font = new Font(TheApp.app.Config.Font, 10);
                         item0.Text = "なし(&N)"; // None
                         item0.Checked = config.LastMoveToColorType == 0;
                         item0.Click += (sender, e) => { config.LastMoveToColorType = 0; };
                         item.DropDownItems.Add(item0);
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "朱色(&R)"; // Red
                         item1.Checked = config.LastMoveToColorType == 1;
                         item1.Click += (sender, e) => { config.LastMoveToColorType = 1; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "青色(&B)"; // Blue
                         item2.Checked = config.LastMoveToColorType == 2;
                         item2.Click += (sender, e) => { config.LastMoveToColorType = 2; };
                         item.DropDownItems.Add(item2);
 
                         var item3 = new ToolStripMenuItem();
+                        item3.Font = new Font(TheApp.app.Config.Font, 10);
                         item3.Text = "緑色(&G)"; // Green
                         item3.Checked = config.LastMoveToColorType == 3;
                         item3.Click += (sender, e) => { config.LastMoveToColorType = 3; };
@@ -1930,27 +1998,32 @@ namespace MyShogi.View.Win2D
                     }
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "駒を掴んだ時の移動元(&K)"; // picked from
 
                         var item0 = new ToolStripMenuItem();
+                        item0.Font = new Font(TheApp.app.Config.Font, 10);
                         item0.Text = "なし(&N)"; // None
                         item0.Checked = config.PickedMoveFromColorType == 0;
                         item0.Click += (sender, e) => { config.PickedMoveFromColorType = 0; };
                         item.DropDownItems.Add(item0);
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "黄色(&Y)"; // Yellow
                         item1.Checked = config.PickedMoveFromColorType == 1;
                         item1.Click += (sender, e) => { config.PickedMoveFromColorType = 1; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "青色(&B)"; // Blue
                         item2.Checked = config.PickedMoveFromColorType == 2;
                         item2.Click += (sender, e) => { config.PickedMoveFromColorType = 2; };
                         item.DropDownItems.Add(item2);
 
                         var item3 = new ToolStripMenuItem();
+                        item3.Font = new Font(TheApp.app.Config.Font, 10);
                         item3.Text = "緑色(&G)"; // Green
                         item3.Checked = config.PickedMoveFromColorType == 3;
                         item3.Click += (sender, e) => { config.PickedMoveFromColorType = 3; };
@@ -1961,39 +2034,46 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "駒を掴んだ時の移動候補(&L)"; // .. picked to
 
                         var item0 = new ToolStripMenuItem();
+                        item0.Font = new Font(TheApp.app.Config.Font, 10);
                         item0.Text = "エフェクトなし(&N)"; // None
                         item0.Checked = config.PickedMoveToColorType == 0;
                         item0.Click += (sender, e) => { config.PickedMoveToColorType = 0; };
                         item.DropDownItems.Add(item0);
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "移動できない升を少し暗くする(&1)"; // dark 1
                         item1.Checked = config.PickedMoveToColorType == 1;
                         item1.Click += (sender, e) => { config.PickedMoveToColorType = 1; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "移動できない升を暗くする(&2)"; // dark 2
                         item2.Checked = config.PickedMoveToColorType == 2;
                         item2.Click += (sender, e) => { config.PickedMoveToColorType = 2; };
                         item.DropDownItems.Add(item2);
 
                         var item3 = new ToolStripMenuItem();
+                        item3.Font = new Font(TheApp.app.Config.Font, 10);
                         item3.Text = "移動できない升をかなり暗くする(&3)"; // dark 3
                         item3.Checked = config.PickedMoveToColorType == 3;
                         item3.Click += (sender, e) => { config.PickedMoveToColorType = 3; };
                         item.DropDownItems.Add(item3);
 
                         var item4 = new ToolStripMenuItem();
+                        item4.Font = new Font(TheApp.app.Config.Font, 10);
                         item4.Text = "移動できる升を少し明るくする(&4)"; // dark 4
                         item4.Checked = config.PickedMoveToColorType == 4;
                         item4.Click += (sender, e) => { config.PickedMoveToColorType = 4; };
                         item.DropDownItems.Add(item4);
 
                         var item5 = new ToolStripMenuItem();
+                        item5.Font = new Font(TheApp.app.Config.Font, 10);
                         item5.Text = "移動できる升を明るくする(&5)"; // dark 5
                         item5.Checked = config.PickedMoveToColorType == 5;
                         item5.Click += (sender, e) => { config.PickedMoveToColorType = 5; };
@@ -2001,6 +2081,7 @@ namespace MyShogi.View.Win2D
 
 #if false
                         var item6 = new ToolStripMenuItem();
+                        item6.Font = new Font(TheApp.app.Config.Font, 10);
                         item6.Text = "駒の影のみ(&6)"; // dark 6
                         item6.Checked = config.PickedMoveToColorType == 6;
                         item6.Click += (sender, e) => { config.PickedMoveToColorType = 6; };
@@ -2013,15 +2094,18 @@ namespace MyShogi.View.Win2D
                     // 駒の移動方向
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "移動方角マーカー(&M)"; // Marker
 
                         var item0 = new ToolStripMenuItem();
+                        item0.Font = new Font(TheApp.app.Config.Font, 10);
                         item0.Text = "なし(&N)"; // None
                         item0.Checked = config.PieceAttackImageVersion == 0;
                         item0.Click += (sender, e) => { config.PieceAttackImageVersion = 0; };
                         item.DropDownItems.Add(item0);
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "あり(&E)"; // Enable
                         item1.Checked = config.PieceAttackImageVersion == 1;
                         item1.Click += (sender, e) => { config.PieceAttackImageVersion = 1; };
@@ -2033,21 +2117,25 @@ namespace MyShogi.View.Win2D
                     { // -- 手番プレートの表示
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "手番側の表現(&T)"; // Turn
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "なし(&0)"; // None
                         item1.Checked = config.TurnDisplay == 0;
                         item1.Click += (sender, e) => { config.TurnDisplay = 0; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "手番側の対局者名の右側に手番マーク(&1)";
                         item2.Checked = config.TurnDisplay == 1;
                         item2.Click += (sender, e) => { config.TurnDisplay = 1; };
                         item.DropDownItems.Add(item2);
 
                         var item3 = new ToolStripMenuItem();
+                        item3.Font = new Font(TheApp.app.Config.Font, 10);
                         item3.Text = "手番側の対局者名を赤文字で表現(&2)";
                         item3.Checked = config.TurnDisplay == 2;
                         item3.Click += (sender, e) => { config.TurnDisplay = 2; };
@@ -2060,15 +2148,18 @@ namespace MyShogi.View.Win2D
                     { // -- 検討ウィンドウで思考エンジンが後手番のときに評価値を反転させるか(自分から見た評価値にするか)
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "対局者名の先頭の手番記号(&U)"; // tUrn // アルファベット的にTの次でU
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "なし(&N)"; // None
                         item1.Checked = config.DisplayNameTurnVersion == 0;
                         item1.Click += (sender, e) => { config.DisplayNameTurnVersion = 0; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "先手「☗」・後手「☖」(&1)";
                         item2.Checked = config.DisplayNameTurnVersion == 1;
                         item2.Click += (sender, e) => { config.DisplayNameTurnVersion = 1; };
@@ -2086,15 +2177,18 @@ namespace MyShogi.View.Win2D
                     { // -- 検討ウィンドウで思考エンジンが後手番のときに評価値を反転させるか(自分から見た評価値にするか)
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "後手番のCPUの評価値を反転表示させるか(&V)"; // reVerse eval
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "通常(手番側から見た評価値)(&N)"; // None
                         item1.Checked = !config.NegateEvalWhenWhite;
                         item1.Click += (sender, e) => { config.NegateEvalWhenWhite = false; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "反転(先手側から見た評価値)(&R)"; // Reverse
                         item2.Checked = config.NegateEvalWhenWhite;
                         item2.Click += (sender, e) => { config.NegateEvalWhenWhite = true; };
@@ -2106,15 +2200,18 @@ namespace MyShogi.View.Win2D
                     { // -- 「対局エフェクト」
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "対局エフェクト(&E)"; // game Effect
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "なし(&D)"; // Disable
                         item1.Checked = config.EnableGameEffect == 0;
                         item1.Click += (sender, e) => { config.EnableGameEffect = 0; };
                         item.DropDownItems.Add(item1);
 
                         var item2 = new ToolStripMenuItem();
+                        item2.Font = new Font(TheApp.app.Config.Font, 10);
                         item2.Text = "あり(&E)"; // Enable
                         item2.Checked = config.EnableGameEffect == 1;
                         item2.Click += (sender, e) => { config.EnableGameEffect = 1; };
@@ -2128,11 +2225,13 @@ namespace MyShogi.View.Win2D
                 // 「音声」
                 {
                     var item_sounds = new ToolStripMenuItem();
+                    item_sounds.Font = new Font(TheApp.app.Config.Font, 10);
                     item_sounds.Text = "音声(&S)"; // Sound
                     menu.Items.Add(item_sounds);
 
                     {
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "対局時の駒音(&P)"; // Piece sound
                         item1.Checked = config.PieceSoundInTheGame == 1;
                         item1.Click += (sender, e) => { config.PieceSoundInTheGame ^= 1 /* 0,1反転 */; };
@@ -2143,6 +2242,7 @@ namespace MyShogi.View.Win2D
                         // あまりいい効果音作れなかったのでコメントアウトしとく。
                     {
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "王手などの駒音を衝撃音に(&C)"; // Check sound
                         item1.Checked = config.CrashPieceSoundInTheGame == 1;
                         item1.Click += (sender, e) => { config.CrashPieceSoundInTheGame ^= 1 /* 0,1反転 */; };
@@ -2152,6 +2252,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "検討時の駒音(&Q)"; // Piece soundのPの(アルファベット的に)次の文字。
                         item1.Checked = config.PieceSoundOffTheGame == 1;
                         item1.Click += (sender, e) => { config.PieceSoundOffTheGame ^= 1 /* 0,1反転 */; };
@@ -2161,6 +2262,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "対局時の棋譜読み上げ(&R)"; // Read out
                         item1.Checked = config.ReadOutKifu == 1;
                         item1.Enabled = config.CommercialVersion != 0; // 商用版のみ選択可
@@ -2170,6 +2272,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "棋譜読み上げの時、「先手」「後手」を毎回読み上げる(&E)"; // Everytime
                         item1.Checked = config.ReadOutSenteGoteEverytime == 1;
                         item1.Enabled = config.CommercialVersion != 0; // 商用版のみ選択可
@@ -2179,6 +2282,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "終局時に以降の音声読み上げをキャンセルする。(&C)"; // Cancel
                         item1.Checked = config.ReadOutCancelWhenGameEnd == 1;
                         item1.Enabled = config.CommercialVersion != 0; // 商用版のみ選択可
@@ -2198,6 +2302,7 @@ namespace MyShogi.View.Win2D
                 }
 
                 var item_boardedit = new ToolStripMenuItem();
+                item_boardedit.Font = new Font(TheApp.app.Config.Font, 10);
                 item_boardedit.Text = "盤面編集(&E)"; // board Edit
                 item_boardedit.Enabled = !inTheGame;
                 menu.Items.Add(item_boardedit);
@@ -2206,6 +2311,7 @@ namespace MyShogi.View.Win2D
                 {
                     {   // -- 盤面編集の開始
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = inTheBoardEdit ? "盤面編集の終了(&B)" : "盤面編集の開始(&B)"; // Board edit
                         item.ShortcutKeys = Keys.Control | Keys.E; // boardEdit
                         item.ShowShortcutKeys = true;
@@ -2221,6 +2327,7 @@ namespace MyShogi.View.Win2D
 
                     {   // -- 手番の変更
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Enabled = inTheBoardEdit;
                         item.Text = "手番の変更(&T)"; // Turn change
                         item.Click += (sender, e) =>
@@ -2235,6 +2342,7 @@ namespace MyShogi.View.Win2D
 
                     {   // -- 平手の初期局面
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Enabled = inTheBoardEdit;
                         item.Text = "平手の初期局面配置(&N)"; // No handicaped
                         item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.NoHandicap.ToSfen()); };
@@ -2243,12 +2351,14 @@ namespace MyShogi.View.Win2D
 
                     {   // -- 駒落ちの局面
                         var item_handicap = new ToolStripMenuItem();
+                        item_handicap.Font = new Font(TheApp.app.Config.Font, 10);
                         item_handicap.Enabled = inTheBoardEdit;
                         item_handicap.Text = "駒落ち初期局面配置(&H)"; // Handicaped
                         item_boardedit.DropDownItems.Add(item_handicap);
 
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "香落ち(&1)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.HandicapKyo.ToSfen()); };
@@ -2256,6 +2366,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "右香落ち(&2)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.HandicapRightKyo.ToSfen()); };
@@ -2263,6 +2374,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "角落ち(&3)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.HandicapKaku.ToSfen()); };
@@ -2270,6 +2382,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "飛車落ち(&4)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.HandicapHisya.ToSfen()); };
@@ -2277,6 +2390,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "飛香落ち(&5)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.HandicapHisyaKyo.ToSfen()); };
@@ -2284,6 +2398,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "二枚落ち(&6)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Handicap2.ToSfen()); };
@@ -2291,6 +2406,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "三枚落ち(&7)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Handicap3.ToSfen()); };
@@ -2298,6 +2414,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "四枚落ち(&8)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Handicap4.ToSfen()); };
@@ -2305,6 +2422,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "五枚落ち(&9)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Handicap5.ToSfen()); };
@@ -2312,6 +2430,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "左五枚落ち(&A)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.HandicapLeft5.ToSfen()); };
@@ -2319,6 +2438,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "六枚落ち(&B)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Handicap6.ToSfen()); };
@@ -2326,6 +2446,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "八枚落ち(&C)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Handicap8.ToSfen()); };
@@ -2333,6 +2454,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "十枚落ち(&D)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Handicap10.ToSfen()); };
@@ -2340,6 +2462,7 @@ namespace MyShogi.View.Win2D
                         }
                         {
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Enabled = inTheBoardEdit;
                             item.Text = "歩三枚(&E)";
                             item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.HandicapPawn3.ToSfen()); };
@@ -2350,6 +2473,7 @@ namespace MyShogi.View.Win2D
 
                     {   // -- 詰将棋用の配置(駒箱に)
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Enabled = inTheBoardEdit;
                         item.Text = "詰将棋用に配置(&M)"; // Mate
                         item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Mate1.ToSfen()); };
@@ -2358,6 +2482,7 @@ namespace MyShogi.View.Win2D
 
                     {   // -- 双玉詰将棋用の局面
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Enabled = inTheBoardEdit;
                         item.Text = "双玉詰将棋用に配置(&D)"; // Dual king mate
                         item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Mate2.ToSfen()); };
@@ -2368,6 +2493,7 @@ namespace MyShogi.View.Win2D
                         // - 双玉で玉以外すべて駒箱に
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Enabled = inTheBoardEdit;
                         item.Text = "双玉で玉以外すべて駒箱に配置(&U)"; // dUal king
                         item.Click += (sender, e) => { gameServer.SetSfenCommand(BoardType.Mate3.ToSfen()); };
@@ -2378,6 +2504,7 @@ namespace MyShogi.View.Win2D
                 // -- 「ウインドウ」
 
                 var item_window = new ToolStripMenuItem();
+                item_window.Font = new Font(TheApp.app.Config.Font, 10);
                 item_window.Text = "ウインドウ(&W)"; // Window
                 menu.Items.Add(item_window);
 
@@ -2386,6 +2513,7 @@ namespace MyShogi.View.Win2D
                     { // ×ボタンで消していた検討ウィンドウの復活
 
                         var item_ = new ToolStripMenuItem();
+                        item_.Font = new Font(TheApp.app.Config.Font, 10);
                         item_.Text = "検討ウィンドウ(&C)"; // Consideration window
                         item_window.DropDownItems.Add(item_);
 
@@ -2404,48 +2532,56 @@ namespace MyShogi.View.Win2D
 
                         { // フローティングの状態
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Text = "表示位置(&F)"; // Floating window mode
                             item_.DropDownItems.Add(item);
 
                             {
 
                                 var item1 = new ToolStripMenuItem();
+                                item1.Font = new Font(TheApp.app.Config.Font, 10);
                                 item1.Text = "メインウインドウに埋め込む(&0)(EmbeddedMode)";
                                 item1.Checked = dock.DockState == DockState.InTheMainWindow;
                                 item1.Click += (sender, e) => { dock.DockState = DockState.InTheMainWindow; };
                                 item.DropDownItems.Add(item1);
 
                                 var item2 = new ToolStripMenuItem();
+                                item2.Font = new Font(TheApp.app.Config.Font, 10);
                                 item2.Text = "メインウインドウから浮かせ、相対位置を常に保つ(&1)(FollowMode)";
                                 item2.Checked = dock.DockState == DockState.FollowToMainWindow;
                                 item2.Click += (sender, e) => { dock.DockState = DockState.FollowToMainWindow; };
                                 item.DropDownItems.Add(item2);
 
                                 var item3a = new ToolStripMenuItem();
+                                item3a.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3a.Text = "メインウインドウから浮かせ、メインウインドウの上側に配置する(&2)(DockMode)";
                                 item3a.Checked = dock.DockState == DockState.DockedToMainWindow && dock.DockPosition == DockPosition.Top;
                                 item3a.Click += (sender, e) => { dock.SetState(DockState.DockedToMainWindow, DockPosition.Top); };
                                 item.DropDownItems.Add(item3a);
 
                                 var item3b = new ToolStripMenuItem();
+                                item3b.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3b.Text = "メインウインドウから浮かせ、メインウインドウの左側に配置する(&3)(DockMode)";
                                 item3b.Checked = dock.DockState == DockState.DockedToMainWindow && dock.DockPosition == DockPosition.Left;
                                 item3b.Click += (sender, e) => { dock.SetState(DockState.DockedToMainWindow, DockPosition.Left); };
                                 item.DropDownItems.Add(item3b);
 
                                 var item3c = new ToolStripMenuItem();
+                                item3c.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3c.Text = "メインウインドウから浮かせ、メインウインドウの右側に配置する(&4)(DockMode)";
                                 item3c.Checked = dock.DockState == DockState.DockedToMainWindow && dock.DockPosition == DockPosition.Right;
                                 item3c.Click += (sender, e) => { dock.SetState(DockState.DockedToMainWindow, DockPosition.Right); };
                                 item.DropDownItems.Add(item3c);
 
                                 var item3d = new ToolStripMenuItem();
+                                item3d.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3d.Text = "メインウインドウから浮かせ、メインウインドウの下側に配置する(&5)(DockMode)";
                                 item3d.Checked = dock.DockState == DockState.DockedToMainWindow && dock.DockPosition == DockPosition.Bottom;
                                 item3d.Click += (sender, e) => { dock.SetState(DockState.DockedToMainWindow, DockPosition.Bottom); };
                                 item.DropDownItems.Add(item3d);
 
                                 var item4 = new ToolStripMenuItem();
+                                item4.Font = new Font(TheApp.app.Config.Font, 10);
                                 item4.Text = "メインウインドウから浮かせ、自由に配置する(&6)(FloatingMode)";
                                 item4.Checked = dock.DockState == DockState.FloatingMode;
                                 item4.Click += (sender, e) => { dock.DockState = DockState.FloatingMode; };
@@ -2455,35 +2591,41 @@ namespace MyShogi.View.Win2D
 
                         { // 縦幅
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Text = "メインウインドウに埋め込み時の高さ(&H)"; // Height
                             item_.DropDownItems.Add(item);
 
                             {
                                 var item1 = new ToolStripMenuItem();
+                                item1.Font = new Font(TheApp.app.Config.Font, 10);
                                 item1.Text = "100%(通常)(&1)"; // None
                                 item1.Checked = config.ConsiderationWindowHeightType == 0;
                                 item1.Click += (sender, e) => { config.ConsiderationWindowHeightType = 0; };
                                 item.DropDownItems.Add(item1);
 
                                 var item2 = new ToolStripMenuItem();
+                                item2.Font = new Font(TheApp.app.Config.Font, 10);
                                 item2.Text = "125%(&2)";
                                 item2.Checked = config.ConsiderationWindowHeightType == 1;
                                 item2.Click += (sender, e) => { config.ConsiderationWindowHeightType = 1; };
                                 item.DropDownItems.Add(item2);
 
                                 var item3 = new ToolStripMenuItem();
+                                item3.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3.Text = "150%(&3)";
                                 item3.Checked = config.ConsiderationWindowHeightType == 2;
                                 item3.Click += (sender, e) => { config.ConsiderationWindowHeightType = 2; };
                                 item.DropDownItems.Add(item3);
 
                                 var item4 = new ToolStripMenuItem();
+                                item4.Font = new Font(TheApp.app.Config.Font, 10);
                                 item4.Text = "175%(&4)";
                                 item4.Checked = config.ConsiderationWindowHeightType == 3;
                                 item4.Click += (sender, e) => { config.ConsiderationWindowHeightType = 3; };
                                 item.DropDownItems.Add(item4);
 
                                 var item5 = new ToolStripMenuItem();
+                                item5.Font = new Font(TheApp.app.Config.Font, 10);
                                 item5.Text = "200%(&5)";
                                 item5.Checked = config.ConsiderationWindowHeightType == 4;
                                 item5.Click += (sender, e) => { config.ConsiderationWindowHeightType = 4; };
@@ -2496,6 +2638,7 @@ namespace MyShogi.View.Win2D
                     { // -- 棋譜ウィンドウ
 
                         var item_ = new ToolStripMenuItem();
+                        item_.Font = new Font(TheApp.app.Config.Font, 10);
                         item_.Text = "棋譜ウィンドウ(&K)"; // Kifu window
 
                         item_window.DropDownItems.Add(item_);
@@ -2504,6 +2647,7 @@ namespace MyShogi.View.Win2D
 
                         {
                             var item = new ToolStripMenuItem();
+                           	item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Text = "再表示(&V)"; // visible // 
                             item.ShortcutKeys = Keys.Control | Keys.K; // KifuWindow
                             item.Enabled = kifuDockWindow == null ? false :
@@ -2515,48 +2659,56 @@ namespace MyShogi.View.Win2D
 
                         { // フローティングの状態
                             var item = new ToolStripMenuItem();
+                           	item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Text = "表示位置(&F)"; // Floating window mode
                             item_.DropDownItems.Add(item);
 
                             {
 
                                 var item1 = new ToolStripMenuItem();
+                           	    item1.Font = new Font(TheApp.app.Config.Font, 10);
                                 item1.Text = "メインウインドウに埋め込む(&0)(EmbeddedMode)";
                                 item1.Checked = dock.DockState == DockState.InTheMainWindow;
                                 item1.Click += (sender, e) => { dock.DockState = DockState.InTheMainWindow; };
                                 item.DropDownItems.Add(item1);
 
                                 var item2 = new ToolStripMenuItem();
+                           	    item2.Font = new Font(TheApp.app.Config.Font, 10);
                                 item2.Text = "メインウインドウから浮かせ、相対位置を常に保つ(&1)(FollowMode)";
                                 item2.Checked = dock.DockState == DockState.FollowToMainWindow;
                                 item2.Click += (sender, e) => { dock.DockState = DockState.FollowToMainWindow; };
                                 item.DropDownItems.Add(item2);
 
                                 var item3a = new ToolStripMenuItem();
+                           	    item3a.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3a.Text = "メインウインドウから浮かせ、メインウインドウの上側に配置する(&2)(DockMode)";
                                 item3a.Checked = dock.DockState == DockState.DockedToMainWindow && dock.DockPosition == DockPosition.Top;
                                 item3a.Click += (sender, e) => { dock.SetState(DockState.DockedToMainWindow , DockPosition.Top); };
                                 item.DropDownItems.Add(item3a);
 
                                 var item3b = new ToolStripMenuItem();
+                           	    item3b.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3b.Text = "メインウインドウから浮かせ、メインウインドウの左側に配置する(&3)(DockMode)";
                                 item3b.Checked = dock.DockState == DockState.DockedToMainWindow && dock.DockPosition == DockPosition.Left;
                                 item3b.Click += (sender, e) => { dock.SetState(DockState.DockedToMainWindow , DockPosition.Left); };
                                 item.DropDownItems.Add(item3b);
 
                                 var item3c = new ToolStripMenuItem();
+                           	    item3c.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3c.Text = "メインウインドウから浮かせ、メインウインドウの右側に配置する(&4)(DockMode)";
                                 item3c.Checked = dock.DockState == DockState.DockedToMainWindow && dock.DockPosition == DockPosition.Right;
                                 item3c.Click += (sender, e) => { dock.SetState(DockState.DockedToMainWindow , DockPosition.Right); };
                                 item.DropDownItems.Add(item3c);
 
                                 var item3d = new ToolStripMenuItem();
+                           	    item3d.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3d.Text = "メインウインドウから浮かせ、メインウインドウの下側に配置する(&5)(DockMode)";
                                 item3d.Checked = dock.DockState == DockState.DockedToMainWindow && dock.DockPosition == DockPosition.Bottom;
                                 item3d.Click += (sender, e) => { dock.SetState(DockState.DockedToMainWindow , DockPosition.Bottom); };
                                 item.DropDownItems.Add(item3d);
 
                                 var item4 = new ToolStripMenuItem();
+                           	    item4.Font = new Font(TheApp.app.Config.Font, 10);
                                 item4.Text = "メインウインドウから浮かせ、自由に配置する(&6)(FloatingMode)";
                                 item4.Checked = dock.DockState == DockState.FloatingMode;
                                 item4.Click += (sender, e) => { dock.DockState = DockState.FloatingMode; };
@@ -2566,35 +2718,41 @@ namespace MyShogi.View.Win2D
 
                         { // 横幅
                             var item = new ToolStripMenuItem();
+                            item.Font = new Font(TheApp.app.Config.Font, 10);
                             item.Text = "メインウインドウに埋め込み時の横幅(&W)"; // Width
                             item_.DropDownItems.Add(item);
 
                             {
                                 var item1 = new ToolStripMenuItem();
+                                item1.Font = new Font(TheApp.app.Config.Font, 10);
                                 item1.Text = "100%(通常)(&1)"; // None
                                 item1.Checked = config.KifuWindowWidthType == 0;
                                 item1.Click += (sender, e) => { config.KifuWindowWidthType = 0; };
                                 item.DropDownItems.Add(item1);
 
                                 var item2 = new ToolStripMenuItem();
+                                item2.Font = new Font(TheApp.app.Config.Font, 10);
                                 item2.Text = "125%(&2)";
                                 item2.Checked = config.KifuWindowWidthType == 1;
                                 item2.Click += (sender, e) => { config.KifuWindowWidthType = 1; };
                                 item.DropDownItems.Add(item2);
 
                                 var item3 = new ToolStripMenuItem();
+                                item3.Font = new Font(TheApp.app.Config.Font, 10);
                                 item3.Text = "150%(&3)";
                                 item3.Checked = config.KifuWindowWidthType == 2;
                                 item3.Click += (sender, e) => { config.KifuWindowWidthType = 2; };
                                 item.DropDownItems.Add(item3);
 
                                 var item4 = new ToolStripMenuItem();
+                                item4.Font = new Font(TheApp.app.Config.Font, 10);
                                 item4.Text = "175%(&4)";
                                 item4.Checked = config.KifuWindowWidthType == 3;
                                 item4.Click += (sender, e) => { config.KifuWindowWidthType = 3; };
                                 item.DropDownItems.Add(item4);
 
                                 var item5 = new ToolStripMenuItem();
+                                item5.Font = new Font(TheApp.app.Config.Font, 10);
                                 item5.Text = "200%(&5)";
                                 item5.Checked = config.KifuWindowWidthType == 4;
                                 item5.Click += (sender, e) => { config.KifuWindowWidthType = 4; };
@@ -2657,6 +2815,7 @@ namespace MyShogi.View.Win2D
                         // デバッグウィンドウ
 
                         var item_ = new ToolStripMenuItem();
+                        item_.Font = new Font(TheApp.app.Config.Font, 10);
                         item_.Text = "デバッグ用のログ(&D)"; // Debug window
 
                         item_window.DropDownItems.Add(item_);
@@ -2668,6 +2827,7 @@ namespace MyShogi.View.Win2D
                                 // デバッグウィンドウ
 
                                 var item1 = new ToolStripMenuItem();
+                                item1.Font = new Font(TheApp.app.Config.Font, 10);
                                 item1.Text = "デバッグウィンドウの表示(&D)"; // Debug Window
                                 item1.Click += (sender, e) =>
                                 {
@@ -2697,6 +2857,7 @@ namespace MyShogi.View.Win2D
                                 // ファイルへのロギング
 
                                 var item1 = new ToolStripMenuItem();
+                                item1.Font = new Font(TheApp.app.Config.Font, 10);
                                 var enabled = config.FileLoggingEnable;
                                 item1.Text = enabled ? "ファイルへのロギング終了(&L)" : "ファイルへのロギング開始(&L)"; // Logging
                                 item1.Checked = enabled;
@@ -2715,6 +2876,7 @@ namespace MyShogi.View.Win2D
                     { // ×ボタンで消していた形勢グラフウィンドウの復活
 
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "形勢グラフウィンドウの表示(&G)"; // eval Graph
                         item.Click += (sender, e) =>
                         {
@@ -2733,11 +2895,13 @@ namespace MyShogi.View.Win2D
                 // 「ヘルプ」
                 {
                     var item_others = new ToolStripMenuItem();
+                    item_others.Font = new Font(TheApp.app.Config.Font, 10);
                     item_others.Text = "ヘルプ(&H)"; // Help
                     menu.Items.Add(item_others);
 
                     {
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "よくある質問 (&F)"; // Faq
                         item1.Click += (sender, e) =>
                         {
@@ -2751,6 +2915,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "操作説明(オンラインマニュアル) (&M)"; // Manual
                         item1.Click += (sender, e) =>
                         {
@@ -2768,6 +2933,7 @@ namespace MyShogi.View.Win2D
                         // aboutダイアログ
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "バージョン情報(&V)"; // Version
                         item1.Click += (sender, e) =>
                         {
@@ -2784,6 +2950,7 @@ namespace MyShogi.View.Win2D
                         // システム情報ダイアログ
 
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "システム情報(&S)"; // System Infomation
                         item1.Click += (sender, e) =>
                         {
@@ -2800,6 +2967,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item1 = new ToolStripMenuItem();
+                        item1.Font = new Font(TheApp.app.Config.Font, 10);
                         item1.Text = "アップデートの確認(&U)"; // Update
                         item1.Click += (sender, e) =>
                         {
@@ -2823,10 +2991,12 @@ namespace MyShogi.View.Win2D
                 // デバッグ用にメニューにテストコードを実行する項目を追加する。
                 {
                     var item_debug = new ToolStripMenuItem();
+                    item_debug.Font = new Font(TheApp.app.Config.Font, 10);
                     item_debug.Text = "デバッグ(&G)"; // debuG
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "DevTest1.Test1()";
                         item.Click += (sender, e) => { DevTest1.Test1(); };
                         item_debug.DropDownItems.Add(item);
@@ -2834,6 +3004,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "DevTest1.Test2()";
                         item.Click += (sender, e) => { DevTest1.Test2(); };
                         item_debug.DropDownItems.Add(item);
@@ -2841,6 +3012,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "DevTest1.Test3()";
                         item.Click += (sender, e) => { DevTest1.Test3(); };
                         item_debug.DropDownItems.Add(item);
@@ -2848,6 +3020,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "DevTest1.Test4()";
                         item.Click += (sender, e) => { DevTest1.Test4(); };
                         item_debug.DropDownItems.Add(item);
@@ -2855,6 +3028,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "DevTest1.Test5()";
                         item.Click += (sender, e) =>
                         {
@@ -2865,6 +3039,7 @@ namespace MyShogi.View.Win2D
 
                     {
                         var item = new ToolStripMenuItem();
+                        item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "DevTest2.Test1()";
                         item.Click += (sender, e) => { DevTest2.Test1(); };
                         item_debug.DropDownItems.Add(item);
