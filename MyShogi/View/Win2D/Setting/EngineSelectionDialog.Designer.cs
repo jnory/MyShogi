@@ -34,7 +34,7 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 12F);
             this.button1.Location = new System.Drawing.Point(23, 43);
             this.button1.Margin = new System.Windows.Forms.Padding(1);
             this.button1.Name = "button1";
@@ -46,7 +46,7 @@
             // 
             // button2
             // 
-            this.button2.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button2.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 12F);
             this.button2.Location = new System.Drawing.Point(137, 43);
             this.button2.Margin = new System.Windows.Forms.Padding(1);
             this.button2.Name = "button2";
@@ -69,6 +69,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EngineSelectionDialog";
+            this.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 10F);
             this.Text = "エンジン選択ダイアログ";
             this.ResumeLayout(false);
 

@@ -53,7 +53,7 @@
             // 
             this.textBox1.BackColor = System.Drawing.Color.White;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.textBox1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 11.25F);
             this.textBox1.Location = new System.Drawing.Point(266, 19);
             this.textBox1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.textBox1.Multiline = true;
@@ -86,7 +86,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 12F);
             this.label1.Location = new System.Drawing.Point(7, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
@@ -96,7 +96,7 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 12F);
             this.button1.Location = new System.Drawing.Point(533, 43);
             this.button1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button1.Name = "button1";
@@ -108,6 +108,7 @@
             // 
             // label0
             // 
+            this.label0.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 10F);
             this.label0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label0.Location = new System.Drawing.Point(3, 117);
             this.label0.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
@@ -117,6 +118,7 @@
             // 
             // label4
             // 
+            this.label4.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 10F);
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(185, 103);
             this.label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
@@ -127,6 +129,7 @@
             // 
             // label5
             // 
+            this.label5.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 10F);
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(236, 103);
             this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
@@ -148,6 +151,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.pictureBox1);
+            this.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 10F);
             this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.Name = "EngineSelectionControl";
             this.Size = new System.Drawing.Size(600, 120);
