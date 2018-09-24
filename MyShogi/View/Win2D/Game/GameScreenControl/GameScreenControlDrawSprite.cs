@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MyShogi.App;
 using MyShogi.Model.Resource.Images;
 
 namespace MyShogi.View.Win2D
@@ -112,7 +113,7 @@ namespace MyShogi.View.Win2D
             if (size <= 2)
                 return;
 
-            using (var font = new Font("MSPゴシック", size, GraphicsUnit.Pixel))
+            using (var font = new Font(TheApp.app.Config.Font, size, GraphicsUnit.Pixel))
             {
                 var brush = option == null ? Brushes.Black : option.brush;
                 var brush2 = option == null ? null : option.brush2;
