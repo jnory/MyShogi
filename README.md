@@ -1,4 +1,28 @@
 ﻿
+# このプロジェクトについて
+
+このプロジェクトは MyShogi (https://github.com/yaneurao/MyShogi) をforkしてMacのmonoで起動するように諸々の修正を加えたものです。
+
+# 現在の制限事項
+
+* 音は鳴りません (mono未対応のライブラリが使われているため)
+* すべての機能を動作確認できているわけではありません
+
+# ビルド方法
+
+> msbuild ../MyShogi.sln /p:Configuration=Debug
+
+# 起動方法
+
+> mono --arch=32 bin/Debug/MyShogi.exe
+
+# 画像集について
+
+起動しても真っ暗な画面が表示される場合、画像が読み込まれていません。
+https://github.com/jnory/MyShogiImages をMyShogi.exeがあるフォルダ内にimageという名前でcloneすると「とりあえず」画面が描画されるようになります。(一部足りないかも)
+
+(以下はオリジナルのREADME)
+
 # About this project
 
 MyShogi is an open source GUI for computer Shogi engine.
