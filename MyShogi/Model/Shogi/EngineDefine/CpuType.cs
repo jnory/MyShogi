@@ -67,23 +67,43 @@ namespace MyShogi.Model.Shogi.EngineDefine
                 // 64bit環境である。
                 // 思考エンジンは別プロセスで動作させるので、このプロセスが32bitであっても問題ない。
 
-                var cpuid = Model.Common.Utility.CpuId.flags;
+                var info = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "sysctl",
+                    Arguments = "machdep.cpu.features",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardInput = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = false,
+                };
 
-                if (cpuid.hasAVX512F)
+                var process = new System.Diagnostics.Process
+                {
+                    StartInfo = info,
+                };
+
+                process.Start();
+
+                string result = process.StandardOutput.ReadToEnd();
+                result = result.Trim();
+                result = result.Substring(22);
+
+                if (result.Contains("AVX512")) {
                     c = CpuType.AVX512;
-                else if (cpuid.hasAVX2)
+                } else if (result.Contains("AVX2")) {
                     c = CpuType.AVX2;
-                else if (cpuid.hasAVX)
+                } else if (result.Contains("AVX1")) {
                     c = CpuType.AVX;
-                else if (cpuid.hasSSE42)
+                } else if (result.Contains("SSE4.2")) {
                     c = CpuType.SSE42;
-                else if (cpuid.hasSSE41)
+                } else if (result.Contains("SSE4.1")) {
                     c = CpuType.SSE41;
-                else if (cpuid.hasSSE2)
+                } else if (result.Contains("SSE2")) {
                     c = CpuType.SSE2;
-                else
-                    // そんな阿呆な…。
-                    throw new Exception("CPU判別に失敗しました。");
+                } else {
+                    c = CpuType.NO_SSE;
+                }
             }
 
             cpu = c; // 調べた結果を保存しておく。
