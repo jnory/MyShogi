@@ -281,11 +281,11 @@ namespace MyShogi.View.Win2D
 
             last_font_size = font_size;
 
-            var font = new Font("MS Gothic", font_size, FontStyle.Regular, GraphicsUnit.Pixel);
+			var font = new Font(MyShogi.App.TheApp.app.Config.Font, font_size);
             FontUtility.SetFont( listBox1 , font);
 
             // buttonのFontSizeあまり変更すると高さが足りなくなるので横幅の比率変更は反映させない。
-            var font2 = new Font("MS Gothic", font_size2, FontStyle.Regular, GraphicsUnit.Pixel);
+			var font2 = new Font(MyShogi.App.TheApp.app.Config.Font, font_size2);
             FontUtility.SetFont(button1 , font2);
             FontUtility.SetFont(button2 , font2);
             FontUtility.SetFont(button3 , font2);
@@ -593,10 +593,10 @@ namespace MyShogi.View.Win2D
                     fontsize = 30f;
                 TheApp.app.Config.KifuWindowFontSize = fontsize; // writeback
 
-                var font = new Font("MS Gothic", fontsize , FontStyle.Regular, GraphicsUnit.Point);
+			    var font = new Font(MyShogi.App.TheApp.app.Config.Font, fontsize);
                 FontUtility.SetFont(listBox1, font);
 
-                var font2 = new Font("MS Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+			    var font2 = new Font(MyShogi.App.TheApp.app.Config.Font, 11.25F);
 
                 FontUtility.SetFont(button1, font2);
                 FontUtility.SetFont(button2, font2);

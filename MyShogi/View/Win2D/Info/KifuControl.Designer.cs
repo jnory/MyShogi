@@ -42,7 +42,7 @@
             // listBox1
             // 
             this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.listBox1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 6F);
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 12;
             this.listBox1.Location = new System.Drawing.Point(8, 6);
@@ -55,6 +55,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(8, 103);
+			this.button1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 6F);
             this.button1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(51, 26);
@@ -67,6 +68,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(112, 103);
+			this.button3.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 6F);
             this.button3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(56, 26);
@@ -79,6 +81,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(58, 103);
+			this.button2.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 6F);
             this.button2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(51, 26);
@@ -91,6 +94,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(170, 103);
+			this.button4.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 6F);
             this.button4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(56, 26);
@@ -103,6 +107,7 @@
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(228, 103);
+			this.button5.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 6F);
             this.button5.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(23, 26);
@@ -115,6 +120,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(253, 103);
+			this.button6.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 6F);
             this.button6.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(23, 26);
@@ -136,6 +142,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listBox1);
             this.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+			this.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 6F);
             this.Name = "KifuControl";
             this.Size = new System.Drawing.Size(316, 144);
             this.SizeChanged += new System.EventHandler(this.KifuControl_SizeChanged);
