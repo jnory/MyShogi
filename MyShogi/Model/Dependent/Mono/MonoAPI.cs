@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using MyShogi.App;
 
 // --- 単体で呼び出して使うAPI群
 
@@ -123,7 +124,7 @@ namespace MyShogi.Model.Dependent
 
     /// <summary>
     /// MonoやUbuntuではClipboardの仕組みが異なるので、標準のClipboardクラスではなくこちらを用いる。
-    /// 
+    ///
     /// cf.
     /// Mono, Ubuntu and Clipboard : https://www.medo64.com/2011/01/mono-ubuntu-and-clipboard/
     /// Clipboard Plugin for Xamarin, Windows & Gtk2 : https://github.com/stavroskasidis/XamarinClipboardPlugin
@@ -182,7 +183,7 @@ namespace MyShogi.Model.Dependent
     /// <summary>
     /// MonoでGraphics.DrawImage()で転送元が半透明かつ、転送先がCreateBitmap()したBitmapだと
     /// 転送元のalphaが無視されるので、DrawImage()をwrapする。
-    /// 
+    ///
     /// Monoではこの挙動、きちんと実装されていない。(bugだと言えると思う)
     /// Monoは、GDIPlusまわりの実装、いまだにおかしいところ多い。
     /// </summary>
@@ -258,24 +259,11 @@ namespace MyShogi.Model.Dependent
             var size = f.Size;
 
 
-            switch (name)
+            if (name == TheApp.app.Config.Font)
             {
-#if false
-                case "MS Gothic":
-                case "MS UI Gothic":
-                case "ＭＳ ゴシック":
-                case "MSPゴシック":
-                case "Yu Gothic UI":
-                case "Microsoft Sans Serif":
-#endif
-                // 置換済みなら置換しない。それ以外は全部置換する。
-                case replace_fontname:
-                    return f;
-
-                default:
-                    return new Font(replace_fontname, size);
-
+                return f;
             }
+            return new Font(replace_fontname, size);
         }
     }
 }
@@ -286,7 +274,7 @@ namespace MyShogi.Model.Resource.Sounds
 {
     /// <summary>
     /// wavファイル一つのwrapper。
-    /// 
+    ///
     /// 他の環境に移植する場合は、このクラスをその環境用に再実装すべし。
     /// </summary>
     public class SoundLoader : IDisposable
