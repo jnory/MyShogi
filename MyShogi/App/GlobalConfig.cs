@@ -593,7 +593,7 @@ namespace MyShogi.App
 
         /// <summary>
         /// GUIで使うフォント。
-        /// デフォルト : "ヒラギノ丸ゴ ProN W4"
+        /// デフォルト : "Hiragino Kaku Gothic Pro W3";
         /// </summary>
         [DataMember]
         public string Font { get; set; }
