@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using MyShogi.App;
 using MyShogi.Model.Common.ObjectModel;
 using MyShogi.Model.Common.Tool;
@@ -18,6 +19,9 @@ namespace MyShogi.View.Win2D
 
             // タスクバーでは非表示。
             ShowInTaskbar = false;
+
+            // 子コントロールへのキー入力も、まずはこのフォームが受け取らなければならない。
+            KeyPreview = true;
         }
 
         public class DockWindowViewModel : NotifyObject
@@ -92,6 +96,17 @@ namespace MyShogi.View.Win2D
             }
         }
 
+        /// <summary>
+        /// サブウインドウを表示するとき、Activeになられても困るので非アクティブで表示されるウインドウを出す。
+        /// これは、ShowWithoutActivationというプロパティをoverrideすれば良い。
+        ///
+        /// cf. 非アクティブのままサブ・フォームを表示するには？［2.0のみ、C#、VB］ : http://www.atmarkit.co.jp/fdotnet/dotnettips/494shownonactive/shownonactive.html
+        ///
+        /// つねにActiveになられては困るので MA_NOACTIVATE を指定する必要があるか…。
+        /// →　これ大変だな…。キーボードショートカットが利くようにすべきか…。
+        /// </summary>
+        protected override bool ShowWithoutActivation { get { return true; } }
+
         private void InitViewModel()
         {
             ViewModel.AddPropertyChangedHandler("Caption", (args) => { Text = (string)args.value; });
@@ -125,19 +140,6 @@ namespace MyShogi.View.Win2D
 
         private void DockWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-#if false
-            if (!TheApp.app.Exiting)
-            {
-                // cancelして非表示にして隠しておく。
-                e.Cancel = true;
-                Visible = false;
-
-                // 「棋譜ウインドウ」の再表示がメニュー上で選べるようになっていて欲しいので、
-                // メニューの再描画を要求する。
-
-                ViewModel.RaisePropertyChanged("MenuUpdated");
-            }
-#endif
             // →　Ownerを設定する場合において、closeをCancelするのは筋が良くない。
 
             // もう終了するなら、このメソッドが非UIスレッドから呼び出されていることになるし、
@@ -145,15 +147,38 @@ namespace MyShogi.View.Win2D
             if (TheApp.app.Exiting)
                 return;
 
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+            {
+                // 親ウインドウが棋譜を未保存だったりするので、
+                // 閉じることを確定させるとは限らない。このウインドウは閉じない。一昨日きやがれ。
+                e.Cancel = true;
+                return;
+            }
+
             if (ViewModel.Control != null)
             {
                 // Dispose()が呼ばれるとたまらないのでremoveしておく。(親側で解体すべき)
                 Controls.Remove(ViewModel.Control);
                 ViewModel.Control = null;
 
-                Visible = false; // これにしてから、Menuの更新をすれば、メニューの棋譜ウインドウの「再表示」が有効になる。
+                //Visible = false; // これにしてから、Menuの更新をすれば、メニューの棋譜ウインドウの「再表示」が有効になる。
+                // →筋が良くない。DockManager.Visibleのほうを使う。
+                var dockManager = ViewModel.DockManager;
+                dockManager.Visible = false;
+
+                // 親側にフォーカスを戻しておかないとキーボードショートカットが利かなくなってしまう。
+
+                //if (Owner != null)
+                //    Owner.Focus();
+
                 ViewModel.RaisePropertyChanged("MenuUpdated");
             }
+        }
+
+        private void DockWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            // メインウインドウのメニューに登録されているキーボードショートカットをハンドルする。
+            TheApp.app.KeyShortcut.KeyDown(sender, e);
         }
     }
 }

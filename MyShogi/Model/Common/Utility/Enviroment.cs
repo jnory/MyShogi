@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyShogi.Model.Dependent;
+using System;
 using System.Management;
 
 namespace MyShogi.Model.Common.Utility
@@ -42,7 +43,7 @@ namespace MyShogi.Model.Common.Utility
         /// 実行環境のスレッドの数
         /// HTオンだと、論理スレッド数、
         /// HTオフだと、物理スレッド数が返る。
-        /// 
+        ///
         /// AutoSettingでThreadを指定してある場合、現環境のスレッド数に制限されるべきなので
         /// そのためにこのメソッドが必要。
         /// </summary>
@@ -55,41 +56,15 @@ namespace MyShogi.Model.Common.Utility
 
         /// <summary>
         /// 実行環境の物理コア数。
-        /// 
+        ///
         /// AutoSettingでThreadを指定してある場合、現環境のスレッド数に制限されるべきなので
         /// そのためにこのメソッドが必要。
         /// </summary>
         /// <returns></returns>
         public static int GetProcessorCores()
         {
-            var info = new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = "sysctl",
-                // WorkingDirectory = engineData.ExeWorkingDirectory,
-                Arguments = "hw.activecpu",
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardInput = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = false,
-            };
-
-            var process = new System.Diagnostics.Process
-            {
-                StartInfo = info,
-            };
-
-            process.Start();
-
-            string result = process.StandardOutput.ReadToEnd();
-            result = result.Trim();
-            result = result.Substring(14);
-
-            bool success = Int32.TryParse(result, out processor_cores);
-            if(!success) {
-                processor_cores = 1;
-            }
-
+            if (processor_cores == 0)
+                processor_cores = API.GetProcessorCores();
             return processor_cores;
         }
 

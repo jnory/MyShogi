@@ -1,4 +1,5 @@
 ﻿using System;
+using MyShogi.Model.Dependent;
 
 namespace MyShogi.Model.Shogi.EngineDefine
 {
@@ -22,7 +23,7 @@ namespace MyShogi.Model.Shogi.EngineDefine
     {
         /// <summary>
         /// 実行ファイルのファイル名の末尾につけるsuffixを返す。
-        /// 
+        ///
         /// 例) AVX2用なら、"engine_avx2"のようになるので"avx2"を返す。
         /// </summary>
         /// <param name="cpu"></param>
@@ -59,52 +60,13 @@ namespace MyShogi.Model.Shogi.EngineDefine
             if (c != CpuType.UNKNOWN)
                 return c;
 
-            // 64bit環境でなければ無条件でNO_SSE
+            // 64bit環境でなければ無条件でNO_SSEとして扱う
             if (!Environment.Is64BitOperatingSystem)
                 c = CpuType.NO_SSE;
             else
-            {
                 // 64bit環境である。
                 // 思考エンジンは別プロセスで動作させるので、このプロセスが32bitであっても問題ない。
-
-                var info = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "sysctl",
-                    Arguments = "machdep.cpu.features",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    RedirectStandardInput = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = false,
-                };
-
-                var process = new System.Diagnostics.Process
-                {
-                    StartInfo = info,
-                };
-
-                process.Start();
-
-                string result = process.StandardOutput.ReadToEnd();
-                result = result.Trim();
-                result = result.Substring(22);
-
-                if (result.Contains("AVX512")) {
-                    c = CpuType.AVX512;
-                } else if (result.Contains("AVX2")) {
-                    c = CpuType.AVX2;
-                } else if (result.Contains("AVX1")) {
-                    c = CpuType.AVX;
-                } else if (result.Contains("SSE4.2")) {
-                    c = CpuType.SSE42;
-                } else if (result.Contains("SSE4.1")) {
-                    c = CpuType.SSE41;
-                } else if (result.Contains("SSE2")) {
-                    c = CpuType.SSE2;
-                } else {
-                    c = CpuType.NO_SSE;
-                }
-            }
+                c = API.GetCurrentCpu();
 
             cpu = c; // 調べた結果を保存しておく。
             return c;

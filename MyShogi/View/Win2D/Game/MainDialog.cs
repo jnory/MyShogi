@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using MyShogi.App;
@@ -24,6 +25,9 @@ namespace MyShogi.View.Win2D
         public MainDialog()
         {
             InitializeComponent();
+
+            // ToolStripのフォントを設定しなおす。
+            FontUtility.ReplaceFont(toolStrip1);
         }
 
         #region ViewModel
@@ -90,6 +94,7 @@ namespace MyShogi.View.Win2D
             engineConsiderationMainControl.ConsiderationInstance(0).ViewModel.AddPropertyChangedHandler("MultiPV", (h) => {
                 gameServer.ChangeMultiPvCommand((int)h.value);
             });
+            FontUtility.ReplaceFont(engineConsiderationMainControl);
         }
 
         #endregion
@@ -225,6 +230,7 @@ namespace MyShogi.View.Win2D
                 dialog.ViewModel.DialogType = ConsiderationEngineSettingDialogType.ConsiderationSetting;
                 dialog.ViewModel.AddPropertyChangedHandler("StartButtonClicked", _ => ToggleConsideration());
                 dialog.Bind(setting);
+                FontUtility.ReplaceFont(dialog);
                 dialog.ShowDialog(this);
             }
         }
@@ -242,6 +248,7 @@ namespace MyShogi.View.Win2D
                 dialog.ViewModel.DialogType = ConsiderationEngineSettingDialogType.MateSetting;
                 dialog.ViewModel.AddPropertyChangedHandler("StartButtonClicked", _ => ToggleMateConsideration());
                 dialog.Bind(setting);
+                FontUtility.ReplaceFont(dialog);
                 dialog.ShowDialog(this);
             }
         }
@@ -257,20 +264,36 @@ namespace MyShogi.View.Win2D
             var dockManager = TheApp.app.Config.KifuWindowDockManager;
             dockManager.DockState = dockState; // 次回起動時のためにここに保存しておく。
 
+            // 何にせよ、いったん解除する。
             if (kifuDockWindow != null)
             {
                 kifuDockWindow.RemoveControl();
                 kifuDockWindow.Dispose();
                 kifuDockWindow = null;
             }
+            if (gameScreenControl1.Controls.Contains(kifuControl))
+                gameScreenControl1.Controls.Remove(kifuControl);
+
+            // dockManager.Visibleは反映させないと駄目。
+            if (!dockManager.Visible)
+            {
+                // フォーカス移動されてると困るので戻す。
+                this.Focus();
+                return;
+            }
 
             if (dockState == DockState.InTheMainWindow)
             {
-                if (!gameScreenControl1.Controls.Contains(kifuControl))
-                    gameScreenControl1.Controls.Add(kifuControl);
+                gameScreenControl1.Controls.Add(kifuControl);
                 gameScreenControl1.ResizeKifuControl(); // フォームに埋めたあとリサイズする。
 
-            } else {
+                // 細長い駒台のときはVisibleにしないのでここで制御しない。
+
+                // TODO : メインウインドウを再描画しないと棋譜ウインドウが出てこない。何か初期化忘れている？
+                Invalidate();
+            }
+            else
+            {
 
                 kifuDockWindow = new DockWindow();
                 kifuDockWindow.ViewModel.AddPropertyChangedHandler("MenuUpdated", _ => UpdateMenuItems());
@@ -283,8 +306,6 @@ namespace MyShogi.View.Win2D
                 // 結論的には、OwnerをMainWindowにして、Close()のキャンセル処理はしないようにする。
 
                 kifuDockWindow.ViewModel.Caption = "棋譜ウインドウ";
-                if (gameScreenControl1.Controls.Contains(kifuControl))
-                    gameScreenControl1.Controls.Remove(kifuControl);
 
                 // デフォルト位置とサイズにする。
                 if (dockManager.Size.IsEmpty)
@@ -328,13 +349,24 @@ namespace MyShogi.View.Win2D
                 engineConsiderationDockWindow.Dispose();
                 engineConsiderationDockWindow = null;
             }
+            if (this.Controls.Contains(engineConsiderationMainControl))
+            {
+                this.Controls.Remove(engineConsiderationMainControl);
+                ResizeConsiderationControl(); // フォームに埋めたあとリサイズする。
+            }
+
+            // dockManager.Visibleは反映させないと駄目。
+            if (!dockManager.Visible)
+            {
+                // フォーカス移動されてると困るので戻す。
+                this.Focus();
+                return;
+            }
 
             if (dockState == DockState.InTheMainWindow)
             {
-                if (!gameScreenControl1.Controls.Contains(engineConsiderationMainControl))
-                {
-                    this.Controls.Add(engineConsiderationMainControl);
-                }
+                this.Controls.Add(engineConsiderationMainControl);
+                ResizeConsiderationControl(); // フォームに埋めたあとリサイズする。
             }
             else
             {
@@ -343,8 +375,6 @@ namespace MyShogi.View.Win2D
                 engineConsiderationDockWindow.Owner = this;
 
                 engineConsiderationDockWindow.ViewModel.Caption = "検討ウインドウ";
-                if (this.Controls.Contains(engineConsiderationMainControl))
-                    this.Controls.Remove(engineConsiderationMainControl);
 
                 // デフォルト位置とサイズにする。
                 if (dockManager.Size.IsEmpty)
@@ -362,14 +392,13 @@ namespace MyShogi.View.Win2D
 
                 // Showで表示とサイズが確定してからdockManagerを設定しないと、
                 // Showのときの位置とサイズがdockManagerに記録されてしまう。
-                engineConsiderationMainControl.Visible = true; // 細長い駒台モードのため非表示にしていたかも知れないので。
+                engineConsiderationMainControl.Visible = true;
 
                 engineConsiderationDockWindow.AddControl(engineConsiderationMainControl, this, dockManager);
                 dockManager.InitDockWindowLocation(this, engineConsiderationDockWindow);
 
                 engineConsiderationDockWindow.Show();
             }
-            ResizeConsiderationControl(); // フォームに埋めたあとリサイズする。
         }
 
         /// <summary>
@@ -390,7 +419,7 @@ namespace MyShogi.View.Win2D
             var config = TheApp.app.Config;
             var dockManager = config.EngineConsiderationWindowDockManager;
 
-            if (dockManager.DockState == DockState.InTheMainWindow)
+            if (dockManager.DockState == DockState.InTheMainWindow && dockManager.Visible /* 非表示のときはないものとして扱う */)
             {
                 // メインウインドウに埋め込み時の検討ウインドウ高さの倍率
                 float height_rate = 1 + 0.25f * config.ConsiderationWindowHeightType;
@@ -696,7 +725,6 @@ namespace MyShogi.View.Win2D
             var message = args.value as UsiThinkReportMessage;
             engineConsiderationMainControl.EnqueueThinkReportMessage(message);
 
-
 #if false // このデバッグをしているとマスターアップに間に合わなさそう。後回し。
             // 評価値グラフの更新など
             gameServer.ThinkReportChangedCommand(message);
@@ -715,74 +743,6 @@ namespace MyShogi.View.Win2D
             cancelEvalGraph:;
 #endif
 
-            // 検討ウインドウのdock処理のためにリファクタリング中。
-#if false
-            if (engineConsiderationDialog == null)
-            {
-                // 結局検討ダイアログ使わないなら、無視して帰る。(子ダイアログ作ってすぐ消すと画面ちらつくので)
-                if ((message.type == UsiEngineReportMessageType.NumberOfInstance && message.number == 0) ||
-                    (message.type == UsiEngineReportMessageType.SetGameMode)
-                    )
-                    return;
-
-                var dialog = new EngineConsiderationDialog();
-                dialog.Init(gameServer.BoardReverse /* これ引き継ぐ。以降は知らん。*/);
-                // ウィンドウ幅を合わせておく。
-
-                // 前回起動時のサイズが記録されているならそれを復元してやる。
-                var size = TheApp.app.Config.ConsiderationDialogClientSize;
-                if (size.Width < 192 || size.Height < 108)
-                    size = Size.Empty;
-                if (size.IsEmpty)
-                    size = new Size(Width, (int)(Width * 0.2)); /* メインウィンドウの20%ぐらいの高さ */
-                dialog.Size = size;
-                dialog.Show(/*this*/);
-                // 検討ウィンドウはClosingイベントをキャンセルして非表示にしているのでメインウインドウにぶら下げると
-                // アプリを終了できなくなってしまう。また、メインウインドウを動かした時に検討ウィンドウは自動追随するので
-                // 現状、普通に使用していてメインウインドウで検討ウィンドウが隠れることはないため、これで良しとする。
-
-                var offset = TheApp.app.Config.ConsiderationDialogClientLocation;
-                if (offset.IsEmpty)
-                    dialog.Location = new Point(Location.X, Location.Y + Height);
-                else
-                    dialog.Location = new Point(Location.X + offset.X, Location.Y + offset.Y);
-
-                dialog.Visible = false;
-
-                dialog.ConsiderationInstance(0).Notify.AddPropertyChangedHandler("MultiPV", (h) =>
-                 { gameServer.ChangeMultiPvCommand((int)h.value); });
-
-                // 検討ウィンドウを×ボタンで非表示にした時にメニューの検討ウィンドウのところが更新になるのでメニューのrefreshが必要。
-                dialog.ViewModel.AddPropertyChangedHandler("CloseButtonClicked", (_) =>
-                {
-                    // ConsiderationModeなら、解除しておく。
-                    if (gameServer.GameMode.IsConsideration())
-                       gameServer.ChangeGameModeCommand(GameModeEnum.ConsiderationWithoutEngine);
-
-                    UpdateMenuItems();
-                });
-
-                // MoveとResizeに応じて、それを記録しなければならない。
-                dialog.Move += (sender,args_) => SaveWindowSizeAndPosition();
-                dialog.Resize += (sender, args_) => SaveWindowSizeAndPosition();
-
-                engineConsiderationDialog = dialog;
-                // 何にせよ、インスタンスがなくては話にならないので生成だけしておく。
-
-            } else
-            {
-                // 検討ウィンドウが非表示になっていたら、PVのメッセージ無視していいや…。
-                // (処理に時間かかるし…)
-                if (!engineConsiderationDialog.Visible && message.type == UsiEngineReportMessageType.UsiThinkReport)
-                        return;
-            }
-
-            var visible_old = engineConsiderationDialog.Visible;
-            engineConsiderationDialog.EnqueueThinkReportMessage(message);
-            // Dispatchした結果、Visible状態が変化したならメニューを更新してやる。
-            if (visible_old != engineConsiderationDialog.Visible)
-                UpdateMenuItems();
-#endif
         }
 
         /// <summary>
@@ -794,7 +754,7 @@ namespace MyShogi.View.Win2D
         }
 
         /// <summary>
-        /// Ctrl+V による棋譜の貼り付け
+        /// [UI Thread] : Ctrl+V による棋譜の貼り付け
         /// </summary>
         public void CopyFromClipboard()
         {
@@ -807,8 +767,10 @@ namespace MyShogi.View.Win2D
                         return;
                 }
 
-                //クリップボードからテキスト取得
-                var text = Clipboard.GetText();
+                // クリップボードからテキスト取得
+
+                // GetText()はUI Threadの制約があるので注意。
+                var text = SafeClipboard.GetText();
                 gameServer.KifuReadCommand(text);
                 ViewModel.LastFileName = null;
             }
@@ -1041,6 +1003,7 @@ namespace MyShogi.View.Win2D
             if (TheApp.app.Exiting)
                 return;
 
+            e.Cancel = false; // DockWindow側でtrueにしていたはず。
             if (gameScreenControl1.gameServer.InTheGame)
             {
                 if (TheApp.app.MessageShow("対局中ですが本当に終了しますか？", MessageShowType.WarningOkCancel)
@@ -1054,18 +1017,12 @@ namespace MyShogi.View.Win2D
                     e.Cancel = true;
             }
 
-#if false
-            // main windowにぶら下げているwindowは存在しないので、本当はこの処理は不要。
-            // (main windowが×ボタンで閉じられるときには他のformのFormClosingは呼び出されないため)
-            // また、Application.Exit()すると、何故かすべてのformのFormClosingイベントが呼び出されるので、
-            // その回避のためにTheApp.app.Exitingフラグを見てFormClosingのcancelをするかどうか決定する必要があるため、
-            // TheApp.app.Exiting自体は必要。
-            if (!e.Cancel)
-            {
-                // 閉じるのをcancelしないことが確定したので、これにて終了する。
-                TheApp.app.Exiting = true;
-            }
-#endif
+            // cancelが確定したら、ここでリターン
+            if (e.Cancel)
+                return;
+
+            // 閉じるのをcancelしないことが確定したので、これにて終了する。
+            TheApp.app.ApplicationExit();
 
         }
 
@@ -1168,6 +1125,8 @@ namespace MyShogi.View.Win2D
             // CPU×人間のときは多少遅くても誤差だし、まあいいか…。
 
             var config = TheApp.app.Config;
+            var shortcut = TheApp.app.KeyShortcut;
+            shortcut.OnKeyDown = null; // このdelegateにShortcutキーのハンドラを登録していく。
 
             // Commercial Version GUI
             bool CV_GUI = config.CommercialVersion != 0;
@@ -1235,7 +1194,8 @@ namespace MyShogi.View.Win2D
                         item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "棋譜を開く(&O)";
                         item.ShortcutKeys = Keys.Control | Keys.O;
-                        item.ShowShortcutKeys = true;
+                        // サブウインドウでのショートカットキーの処理
+                        shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.O) item.PerformClick(); };
                         item.Click += (sender, e) =>
                         {
                             using (var fd = new OpenFileDialog())
@@ -1269,7 +1229,8 @@ namespace MyShogi.View.Win2D
                         item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "棋譜の上書き保存(&S)";
                         item.ShortcutKeys = Keys.Control | Keys.S;
-                        item.ShowShortcutKeys = true;
+                        // サブウインドウでのショートカットキーの処理
+                        shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.S) item.PerformClick(); };
                         item.Enabled = ViewModel.LastFileName != null; // 棋譜を読み込んだ時などにしか有効ではない。
                         item.Click += (sender, e) =>
                         {
@@ -1291,7 +1252,7 @@ namespace MyShogi.View.Win2D
                         item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "棋譜に名前をつけて保存(&N)";
                         item.ShortcutKeys = Keys.Control | Keys.S | Keys.Shift;
-                        item.ShowShortcutKeys = true;
+                        shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.S && e.Shift) item.PerformClick(); };
                         item.Click += (sender, e) =>
                         {
                             using (var fd = new SaveFileDialog())
@@ -1416,7 +1377,8 @@ namespace MyShogi.View.Win2D
                         itemk1.Font = new Font(TheApp.app.Config.Font, 10);
                         itemk1.Text = "棋譜KIF形式(&1)";
                         itemk1.ShortcutKeys = Keys.Control | Keys.C;
-                        itemk1.ShowShortcutKeys = true;
+                        shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.C) item.PerformClick(); };
+
                         // このショートカットキーを設定すると対局中などにも書き出せてしまうが、書き出しはまあ問題ない。
                         itemk1.Click += (sender, e) => { gameServer.KifuWriteClipboardCommand(KifuFileType.KIF); };
                         item.DropDownItems.Add(itemk1);
@@ -1493,7 +1455,7 @@ namespace MyShogi.View.Win2D
                         // このショートカットキーを設定すると対局中などにも貼り付けが出来てしまうが、
                         // GameModeを見て、対局中などには処理しないようにしてある。
                         item.ShortcutKeys = Keys.Control | Keys.V;
-                        item.ShowShortcutKeys = true;
+                        shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.V) item.PerformClick(); };
                         item.Click += (sender, e) => { CopyFromClipboard(); };
                         item_file.DropDownItems.Add(item);
                     }
@@ -1631,13 +1593,14 @@ namespace MyShogi.View.Win2D
                         item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = "通常対局(&N)"; // NormalGame
                         item.ShortcutKeys = Keys.Control | Keys.N; // NewGameのN
-                        item.ShowShortcutKeys = true;
+                        shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.N) item.PerformClick(); };
                         item.Click += (sender, e) =>
                         {
-                            using (var gameSettingDialog = new GameSettingDialog(this))
+                            using (var dialog = new GameSettingDialog(this))
                             {
-                                FormLocationUtility.CenteringToThisForm(gameSettingDialog, this);
-                                gameSettingDialog.ShowDialog(this); // Modal Dialogにしておく。
+                                FormLocationUtility.CenteringToThisForm(dialog, this);
+                                FontUtility.ReplaceFont(dialog);
+                                dialog.ShowDialog(this); // Modal Dialogにしておく。
                             }
                         };
 
@@ -1784,7 +1747,7 @@ namespace MyShogi.View.Win2D
 
                         var item = new ToolStripMenuItem();
                         item.Font = new Font(TheApp.app.Config.Font, 10);
-                        item.Text = "検討ウィンドウの棋譜の表示形式(&E)"; // &Dの次だから&E .. consideration 
+                        item.Text = "検討ウィンドウの棋譜の表示形式(&E)"; // &Dの次だから&E .. consideration
 
                         var item1 = new ToolStripMenuItem();
                         item1.Font = new Font(TheApp.app.Config.Font, 10);
@@ -2144,7 +2107,7 @@ namespace MyShogi.View.Win2D
                         item_display.DropDownItems.Add(item);
                     }
 
-                    // 
+                    //
                     { // -- 検討ウィンドウで思考エンジンが後手番のときに評価値を反転させるか(自分から見た評価値にするか)
 
                         var item = new ToolStripMenuItem();
@@ -2314,7 +2277,7 @@ namespace MyShogi.View.Win2D
                         item.Font = new Font(TheApp.app.Config.Font, 10);
                         item.Text = inTheBoardEdit ? "盤面編集の終了(&B)" : "盤面編集の開始(&B)"; // Board edit
                         item.ShortcutKeys = Keys.Control | Keys.E; // boardEdit
-                        item.ShowShortcutKeys = true;
+                        shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.E) item.PerformClick(); };
                         item.Click += (sender, e) => {
                             gameServer.ChangeGameModeCommand(
                                 inTheBoardEdit ?
@@ -2521,11 +2484,10 @@ namespace MyShogi.View.Win2D
 
                         {
                             var item = new ToolStripMenuItem();
-                            item.Text = "再表示(&V)"; // visible // 
-                            item.ShortcutKeys = Keys.Control | Keys.E; // EngineConsiderationWindow
-                            item.Enabled = engineConsiderationDockWindow == null ? false :
-                                (!engineConsiderationDockWindow.Visible /* 解体されてる */ && dock.DockState != DockState.InTheMainWindow);
-                            item.Click += (sender, e) => { dock.RaisePropertyChanged("DockState", dock.DockState); };
+                            item.Text = dock.Visible ? "非表示(&V)" : "再表示(&V)"; // visible //
+                            item.ShortcutKeys = Keys.Control | Keys.R; // EngineConsiderationWindowのR。Eが盤面編集のEditのEで使ってた…。
+                            shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.R) item.PerformClick(); };
+                            item.Click += (sender, e) => { dock.Visible ^= true; dock.RaisePropertyChanged("DockState", dock.DockState); };
                             item_.DropDownItems.Add(item);
                         }
 
@@ -2648,11 +2610,10 @@ namespace MyShogi.View.Win2D
                         {
                             var item = new ToolStripMenuItem();
                            	item.Font = new Font(TheApp.app.Config.Font, 10);
-                            item.Text = "再表示(&V)"; // visible // 
+                            item.Text = dock.Visible ? "非表示(&V)" : "再表示(&V)"; // visible //
                             item.ShortcutKeys = Keys.Control | Keys.K; // KifuWindow
-                            item.Enabled = kifuDockWindow == null ? false :
-                                (!kifuDockWindow.Visible /* 解体されてる */ && dock.DockState != DockState.InTheMainWindow);
-                            item.Click += (sender, e) => { dock.RaisePropertyChanged("DockState", dock.DockState); };
+                            shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.K) item.PerformClick(); };
+                            item.Click += (sender, e) => { dock.Visible ^= true;  dock.RaisePropertyChanged("DockState", dock.DockState); };
                             item_.DropDownItems.Add(item);
                         }
 
@@ -2785,6 +2746,7 @@ namespace MyShogi.View.Win2D
                                         TheApp.app.MessageShow("棋譜ファイルが読み込めませんでした。", MessageShowType.Error);
                                     }
                                 });
+                                FontUtility.ReplaceFont(dialog);
                                 dialog.ShowDialog(this);
                             }
                         };
@@ -2802,6 +2764,7 @@ namespace MyShogi.View.Win2D
                             using (var dialog = new GameResultWindowSettingDialog())
                             {
                                 FormLocationUtility.CenteringToThisForm(dialog, this);
+                                FontUtility.ReplaceFont(dialog);
                                 dialog.ShowDialog(this);
                             }
                         };
@@ -2829,6 +2792,8 @@ namespace MyShogi.View.Win2D
                                 var item1 = new ToolStripMenuItem();
                                 item1.Font = new Font(TheApp.app.Config.Font, 10);
                                 item1.Text = "デバッグウィンドウの表示(&D)"; // Debug Window
+                                item1.ShortcutKeys = Keys.Control | Keys.D;
+                                shortcut.OnKeyDown += (sender, e) => { if (e.Control && e.KeyCode == Keys.D) item1.PerformClick(); };
                                 item1.Click += (sender, e) =>
                                 {
                                     if (debugDialog != null)
@@ -2847,6 +2812,7 @@ namespace MyShogi.View.Win2D
                                     if (debugDialog != null)
                                     {
                                         FormLocationUtility.CenteringToThisForm(debugDialog, this);
+                                        FontUtility.ReplaceFont(debugDialog);
                                         debugDialog.Show();
                                     }
                                 };
@@ -2937,10 +2903,11 @@ namespace MyShogi.View.Win2D
                         item1.Text = "バージョン情報(&V)"; // Version
                         item1.Click += (sender, e) =>
                         {
-                            using (var aboutDialog = new AboutYaneuraOu())
+                            using (var dialog = new AboutYaneuraOu())
                             {
-                                FormLocationUtility.CenteringToThisForm(aboutDialog, this);
-                                aboutDialog.ShowDialog(this);
+                                FormLocationUtility.CenteringToThisForm(dialog, this);
+                                FontUtility.ReplaceFont(dialog);
+                                dialog.ShowDialog(this);
                             }
                         };
                         item_others.DropDownItems.Add(item1);
@@ -2954,10 +2921,11 @@ namespace MyShogi.View.Win2D
                         item1.Text = "システム情報(&S)"; // System Infomation
                         item1.Click += (sender, e) =>
                         {
-                            using (var cpuInfoDialog = new SystemInfo())
+                            using (var dialog = new SystemInfo())
                             {
-                                FormLocationUtility.CenteringToThisForm(cpuInfoDialog, this);
-                                cpuInfoDialog.ShowDialog(this);
+                                FormLocationUtility.CenteringToThisForm(dialog, this);
+                                FontUtility.ReplaceFont(dialog);
+                                dialog.ShowDialog(this);
                             }
                         };
                         item_others.DropDownItems.Add(item1);
@@ -3049,10 +3017,16 @@ namespace MyShogi.View.Win2D
                 }
 #endif
 
+                // メニューのフォントを設定しなおす。
+                FontUtility.ReplaceFont(menu);
+
                 Controls.Add(menu);
+
                 // フォームのメインメニューとする
                 MainMenuStrip = menu;
-                old_menu = menu; // 次回解放するので記憶しておかないと駄目。
+                old_menu = menu;
+                // 次回このメソッドが呼び出された時にthis.Controls.Remove(old_menu)する必要があるので
+                // 記憶しておかないと駄目。
 
                 // レイアウトロジックを再開する
                 menu.ResumeLayout(false);
@@ -3070,8 +3044,7 @@ namespace MyShogi.View.Win2D
         /// </summary>
         private MenuStrip old_menu { get; set; } = null;
 
-
-#endregion
+        #endregion
 
     }
 }

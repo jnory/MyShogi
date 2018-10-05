@@ -1,11 +1,326 @@
-﻿// memo
+﻿
+
+■　2018/10/05
+
+
+- S九段、棋力調整
+- Sのつく段位プリセットの説明文の脱字修正。
+
+
+- 棋譜コントロールがアクティブなときにCtrl+K/Rなどのショートカットキーが効かないのを修正。
+  - キーイベント自前でハンドルして、キーメッセージではなく直接ハンドラを呼ぶと、メニューで無効化されているときにも呼べてしまい困る。
+  - しかし自前で処理するしかなさそう…。
+- KeyboardShortcutHelperクラス追加
+  - 綺麗に書けた。
+
+
+- 棋譜ウインドウ、検討ウインドウ、ショートカットキーで非表示に出来るように。(kumaさん)
+  - DockManagerのメンバーにVisible追加。
+  - 表示～再表示がCtrl+K(棋譜ウインドウ)、Ctrl+R(検討ウインドウ)で出来るようになった。
+  - 棋譜ウインドウ、起動時に最初メインウインドウに表示されるの修正。(最初、非表示にしておく)
+  - 棋譜ウインドウ、検討ウインドウ、最初、非アクティブでpop upさせるように。
+- 棋譜コントロールがアクティブなときにCtrl+K/Rなどのショートカットキーが効かない。
+  - アクティブにならないようにするにはSetWindowPos()が必要。移植性下がる。やりたくない。
+  - キーイベント自前でハンドルして、キーメッセージではなく直接ハンドラを呼ぶと、メニューで無効化されているときにも呼べてしまい困る。
+    - これ、あとで対策を考える。
+- S七段、棋力調整
+
+
+■　2018/10/04
+
+
+- V1.2.3リリース。
+  - eval : MyShogi201807260000Eval.zip
+  - 本体 : MyShogi201810042315V123.zip
+- "1.2.2"→"1.2.3" [2018/09/27]-[2018/10/04]
+
+
+- S九段～S15級、調整中。その4。
+  - S七段・九段以外の調整完了。とりま、これでいっかいリリース。
+  - S七段・九段の調整にはまだ時間がかかるので次バージョンで。
+  
+
+- BookDirを変更したときに、Aperyの定跡ファイル(book.bin)が読み込めなくなるのを修正。(やねうら王のエンジン側)
+  - Aperyの定跡ファイル(book.bin)はBookDirオプションを無視して、"book/book.bin"を読みに行っている。(ohtaroさんの報告) (修正内容の指摘、tttakさん)
+      思考エンジンからのログを確認したところ、
+      .././book/book.bin
+      を見ているっぽい。(つまりは、他の定跡ファイルの存在しているフォルダで合ってる)
+      でも定跡の指し手が採択されない。もう少しきちんと追いかけるべき。時間のある時にやる。
+      cf. https://github.com/yaneurao/MyShogi/issues/57
+- フォルダ名を変更したときに、定跡を使わない場合にも"no_book"というファイルを読みに行っていたのを修正。
+- やねうら王側、修正。詰将棋エンジン以外の各エンジン差し替え。
+    https://github.com/yaneurao/YaneuraOu/commit/ac44452e6da8a5ef9e6fbe7ca7eeeb59181838b0
+
+
+
+- S九段～S15級、調整中。その3。
+  - S六段～S11級の調整完了。
+  - S12級以下の弱さにするのは不可能。
+  - "MultiPV"を"MultiPv"と書いていたところ修正。
+  - 連続対局のときにR順にしたとき、反映されてないような？
+    - MultiPVになっていないだけだった。
+
+
+- 検討ウインドウのバッファリングの処理、改良その2。
+  - 棋譜ウインドウも同様の処理をしたほうがいいような気が…。
+  - 棋譜ウインドウ、非表示にしてると全くつっかえない。やはり棋譜ウインドウのdispatch、良くないのか…。
+
+
+■　2018/10/03
+
+
+- 検討ウインドウ、連続対局のときなど更新が間に合わなくて待たされることがあるの改良。
+  - ほぼ変わらん。これが原因ではないのか…。
+  - 以前のrootSfenに対するメッセージ、捨てる処理を追加。検討ウインドウ、少しレスポンス良くなった。あとは、棋譜ウインドウか…。
+- EngineConsiderationMainControl.csの使っていないコード、削除。
+- デバッグウインドウを出したときに、Filterのテキストボックスにfocusを移動させる。
+
+
+- 対局結果の自動保存の設定になっていないとき、連続対局の勝敗のカウントがされないのを修正。
+
+
+- S七段～S15級、調整中。その2。
+  - スレッド数を増やすと探索が全体的に浅くなる→SkillLevelのmove_to_pickに達しなくなる→単なるMultiPVになる→つよい
+    みたいな流れはあるようだ。これは困った。スレッド数を2に固定して、再度調整しなおす。
+- S段位プリセットの説明、手直しする。
+- 低い段位同士の連続対局だとメニューの更新が1局ずつあるので、デバッグウインドウが出せない
+  - Ctrl + D をデバッグウインドウのショートカットにする。
+
+
+- S七段～S15級、調整中。その1。
+  - せっかくなのでS八段、S九段も調整するか？
+
+
+■　2018/10/02
+
+
+- メモリ上のLogをデフォルトで1万行までの保存とする。
+  - これでも10局分ぐらいは保存できるはず。
+  - 1局100KB程度(1000行程度)なので1万局で1000万行、1GBぐらいになる。
+  - 連続対局中、Hashサイズの変更は出来ないので(Hashの再初期化をしないので)、メモリギリギリの状態からだと1GBはきつすぎる。
+        /// ただし、デバッグウインドウを開いている間は、この行数を超えて表示される。
+        /// (これはデバッグウインドウ側で保持しているQueueに追加されていくため)
+
+
+- 1級～10級を下方修正。新1級 = 従来の2級 , 新2級 = 従来の4級 , 新3級 = 従来の6級 , … , 新10級 = 従来の20級 相当
+- S七段～S10級を追加。序盤は弱いのに終盤だけ強いということのないように、人間らしい弱さを追求。
+  // 現在調整中
+- エンジン選択のときのエンジン説明のテキストボックスに垂直スクロールバーを追加。
+
+
+■　2018/10/01
+
+
+- デバッグウインドウに思考エンジンからの出力が記録されてなかったの修正。
+  - 前回、RemoteService削除したときに書き忘れ。
+
+
+- Aperyのbook/binが読み込めない件。
+  思考エンジンからのログを確認したところ、
+  .././book/book.bin
+  を見ているっぽい。(つまりは、他の定跡ファイルの存在しているフォルダで合ってる)
+  でも定跡の指し手が採択されない。もう少しきちんと追いかけるべき。時間のある時にやる。
+
+
+■　2018/09/30
+
+
+- Mac用のビルド手順、追記
+
+
+- macOS対応作業その4
+  - 一応画面は綺麗に出た。対局開始の透過の仕方がおかしい。
+    Monoでalpha値つきの転送で、alpha値が0のときにゴミが乗ってくるのか、抜き色みたいな処理があるのか、よくわからん。
+    いずれにしてもMonoのDrawImage()まわり(GDI+まわり)は、間違った実装になっている箇所が多すぎる。
+  - とりあえず、今回の作業はここまでにしておく。
+
+
+- macOS対応作業その3
+  - GDIPlus.CheckStatusで落ちる。
+  - pngの表示で落ちている模様。
+    Cannot load PNG in C# on Mac OSX running Mono : https://stackoverflow.com/questions/4674453/cannot-load-png-in-c-sharp-on-mac-osx-running-mono
+  - monoではPNG読み込み、非対応？
+  - image/ を image_/ とrenameしても同じところで落ちるのでPNGの問題ではなく、フォントサイズ0で描画とかそんな問題かも。
+  - ただ、どのテキスト描画でそうなるのか、スタックトレース見てもわからん…。
+  - いったんフォントを生成してから置換する手法は、この生成のときにフォントの計測で持っていないフォントだから
+  フォントサイズが0になってしまい、ResumeLayout()の瞬間、GDIPlusでの描画で落ちている可能性が…。
+  - Fontの置換ちゃんとやったほうが良い＆もう少し洗練された書き方をしたほうが良い。
+  - Font、とりま手ですべて置き換えたけどまだ落ちる。これFont絡みだけではないのか？
+
+  - GDIPlus.CheckStatus() [0x00098]で落ちるのは..  https://github.com/mono/mono/issues/10062
+    monoのmcs/classのソースコード読んだほうが早いな、これ。
+
+      https://github.com/mono/mono/blob/master/mcs/class/System.Drawing/System.Drawing/gdipFunctions.cs#227
+
+			  case Status.InvalidParameter:
+				  msg = Locale.GetText ("A null reference or invalid value was found [GDI+ status: {0}]", status);
+				  throw new ArgumentException (msg);
+
+      ああ、CheckStatus()は、エラーのStatusを適切な例外に変換して投げるだけのメソッドか。
+
+      https://github.com/mono/mono/blob/master/mcs/class/System.Drawing/System.Drawing/Graphics.cs#L1937
+
+			RectangleF boundingBox = new RectangleF ();
+
+			Status status = GDIPlus.GdipMeasureString (nativeObject, text, text.Length, font.NativeObject, 
+				ref layoutRect, stringFormat, out boundingBox, null, null);
+			GDIPlus.CheckStatus (status);
+
+  - VS Code + Mono Debug入れれば、デバッガーで追いかけられるようだ。これを用いる。
+    "Microsoft Sans Serif"フォントを使っているところがあって、そこで落ちてた。
+    - 見知らぬフォントが1つでもあると落ちるとは…。
+  - 対局盤面は表示されるようになった。駒もUI上から動かせるし、エンジン選択も動いている。
+  - 盤面の合成に失敗しているの、なんでなんだろう…。24bppRgbに32bppArgbのImageから転送するコード、実装されてないかな。
+    - そうでもなさげ。
+    - alphaが無視されて転送されてる。なんぞこれ…。
+      - C# アルファ透過が指定されている画像をビットマップに書くと汚くなる。 : http://www.atmarkit.co.jp/bbs/phpBB/viewtopic.php?topic=36481&forum=7
+        - この問題に酷似している。
+      - C# Graphics.DrawImage() transparent png background : https://stackoverflow.com/questions/35035368/c-sharp-graphics-drawimage-transparent-png-background
+        - この人と同じ問題。未解決。
+    - DrawImageHelper実装。自前でコピーすることにした。
+
+
+- macOS対応作業その2
+  - Clipboardクラス、Mac用を用意した。
+
+
+- macOS対応作業その1
+  - macOS/Linux用のプロジェクト設定を追加
+    - macOSのmonoはC#7.2までのサポートなのでC#のバージョンとして7.2を指定する。
+
+
+■　2018/09/29
+
+
+- エンジン側との入出力、EncodeをUTF8と変更。
+  - USI2.0でもUTF8を標準とするようにする。
+- ProcessNegotiatorにtry～catch追加など。
+
+
+- 子プロセスからの通信を同期的に調べるときにWaitCompletionPacketがleakしてるっぽい？
+- RemoteServiceでCancelarationTokenのDispose()呼び出してなかった。
+  - しかし、これだけではない気がする…。
+- RemoteService.cs使わないことにする。
+- ProcessNegotiator、リファクタリングした。
+- DebugWindow閉じるタイミングでメッセージが送られてくると破棄されたWindowでInvokeしてることになって
+ 例外が出ていたの修正。
+
+
+■　2018/09/27
+
+
+- 時間無制限のときに名前の表示のところが「/五段」のようになる(masaさん)
+  - 修正しました。
+
+
+- Mac上でサウンドの再生問題について
+  - libsoundio-sharpとPInvokeGeneratorについて(ものがたり) : http://atsushieno.hatenablog.com/entry/2017/12/07/041145
+  - libsound : http://libsound.io/
+
+
+- V1.2.2リリース。
+  - eval : MyShogi201807260000Eval.zip
+  - 本体 : MyShogi201809271520V122.zip
+- "1.2.1"→"1.2.2" [2018/09/25]-[2018/09/27]
+
+
+-クリップボードの貼り付けで拒否されて例外が出ることがある(ohtaroさん)
+  - cf. https://ja.stackoverflow.com/questions/47269/powershell%E3%82%84c%E3%81%8B%E3%82%89%E3%82%AF%E3%83%AA%E3%83%83%E3%83%97%E3%83%9C%E3%83%BC%E3%83%89%E8%BB%A2%E9%80%81%E6%99%82%E3%81%ABexternalexception%E3%81%8C%E9%A0%BB%E7%99%BA%E3%81%99%E3%82%8B%E5%8E%9F%E5%9B%A0%E3%81%A8%E5%AF%BE%E7%AD%96
+   >   System.Windows.Forms.Clipboard のソースコードを確認してみると、
+   >   OleSetClipboardとOleFlushClipboardというOle32.dllのWin32 APIを実行していることがわかります。
+   >   これらの関数で戻り値0x800401D0は、CLIPBRD_E_CANT_OPENが対応しています。
+   >   これは内部でOpenClipboardの実行に失敗したことを意味します。
+    うわぁぁぁぁ。
+- SafeClipboard.cs追加。
+- UIThread()、例外が伝播するようにきちんと書き直す。
+
+
+■　2018/09/26
+
+
+- 検討ウインドウをメインウインドウに埋め込んでいるときにメインウインドウを最小化するとSpliterの計算で例外で落ちるの修正。
+
+
+- 検討ウインドウの表示高さの変更についてonline_manual.mdに追記。
+
+
+- SkillLevelを用いた棋力調整。
+  - 1級 = 以前の2級、2級 = 以前の4級、10級 = 以前の20級のように級を下方修正。(級に関してもR200刻みにする)
+  - 11級～15級を追加。15級は従来の30級ぐらいに相当。
+  - 5段～15級をSkillLevelを用いて調整しなおす。
+
+
+■　2018/09/25
+
+
+- 開始のときにメモリ不足の警告が出たあと、放置しているとエンジンがタイムアウトになるのを修正。
+  - タイムアウトを30秒から15秒に変更。これ以上かかるのは異常である。エンジン側を改修すべき。
+  - タイムアウトになったときにエンジン初期化中の画面から進まないの修正。
+- 例外ダイアログのフォント置換をしていなかったので処理追加。
+- 例外の出力形式、全体的に改善。
+- ExceptionExtensions.cs追加。
+- 開始のときのメモリ不足の警告を出すタイミングですでにエンジンが起動していた。
+  - 警告を出してからエンジンを起動するように修正。
+
+
+- 検討ウインドウのメインウインドウにfollowさせる古いコード、削除。
+- メインウインドウ、閉じるときに、棋譜が残っていて、棋譜ウインドウと検討ウインドウがフロート状態だと
+  ダイアログが出る瞬間にはそれらが非表示になっているのは何とか出来ないのか？
+  - MainWindowのCloseイベントより先にぶら下がっているControlのCloseイベントが送られてきているから仕方ないのか…。
+  - DockWindow側からe.CloseResaonを見ることで回避できた。
+- 検討ウインドウの再表示のショートカット、Ctrl+Eが盤面編集とかぶってて利かなかったのでCtrl+Rに変更。
+
+
 - 検討モードを終了させずに通常対局をすると思考エンジンが空になる。(T.Kさん)
-- 検討ウインドウの文字フォントサイズの変更を可能にする。
+  - 詰検討モードからでも同様だったのでまとめて修正しました。
+
+
+- メニューとToolStripとエンジン詳細設定のフォント変更の実装。
+  - ダイアログのタイトル、TabPageのタイトルのフォントが変わらない。
+  - https://stackoverflow.com/questions/35529780/how-can-i-change-in-tabcontrol-the-font-size-of-a-tab-title
+   > If you change the Font size of the Tab control then the font of the tab headers will change. And since Font is an ambient property it will also get passed on to all contained controls.
+   - ambient propertyらしい…。TabPageのほうで変更すればよさげな？TabPageはうまく変更できた。
+  - ダイアログのタイトルとToolTipのFontが変更できない。
+  - ToolTipはOwnerDrawにしないとFontの変更が出来ない。
+    - C# tooltipのフォントサイズを変更するには？ : https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q1180804231
+    - ToolTip.Draw Event : https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.forms.tooltip.draw?redirectedfrom=MSDN&view=netframework-4.7.2
+    - しんどー。これはまた今度(´ω｀)/~~~
+  - FormのFontはシステムが作成しているので変更できないっぽい。せめてUnicode対応してくれてないと表示がままならない。
+
+
+- 棋譜Controlで生成したFontのinstanceを共有している部分、やめる。
+  - Fontの親以外との共有はよろしくないという考えに基づく。
+- FontReplacerのコード、整理した。半分ぐらい動いている。(気がする)
+  - Fontの所有権、どこにあるのか難しい。
+- メニューとエンジン詳細設定以外はだいたいFontReplacerのフォント設定が適用される状態となった。よしよし。残りはまた時間のある時にやろっと。
+
+
+- Mac版の修正コードのうち、こちらで簡単に対応できそうなものについてはこちらで修正する。
+- docs/Mac、Linuxで動作させるには.md 追加。
+- Model.Common.Dependentに
+    Windows/WindowsAPI.csと
+    Mono/MonoAPI.csを用意。
+  機種依存性があるものは全部ここに放り込む。
+- フォントの置換は、FontReplacerを使って一括して置換することにした。
+  - 作業途中。
+  - ただ、ここで古いフォントを解体するの、所有権の問題があってややこしい。きちんと書かないと二重解放になる。あとでよく考える。
+
+
+- Mac版、ビルドできて動いてた…。
+  https://twitter.com/arrow_elpis/status/1044229423036194816
+
+
+- 振り駒のアニメーションを行うハンドラ、UI Threadで実行していなかったのを修正。(Mizarさん)
+  - 振り駒のときに例外が出ることがあった模様。
 
 
 ■　2018/09/24
 
 
+- SkillLevelの説明をonline_manual.mdに追記。
+
+
+- 一つ前の修正が間違った修正だったで、さらに修正。
 - 検討ウインドウのリサイズイベント、ぬるぽで落ちるの修正。
 
 

@@ -6,6 +6,7 @@ using DColor = System.Drawing.Color;
 using MyShogi.App;
 using MyShogi.Model.Common.ObjectModel;
 using MyShogi.Model.Shogi.Core;
+using MyShogi.Model.Dependent;
 
 namespace MyShogi.Model.Resource.Images
 {
@@ -80,7 +81,7 @@ namespace MyShogi.Model.Resource.Images
                 foreach (var piece_box_exist in All.Bools())
                 {
                     var img = new ImageLoader();
-                    img.CreateBitmap(1920, 1080, PixelFormat.Format24bppRgb);
+                    img.CreateBitmap(1920, 1080, PixelFormat.Format24bppRgb /* Format32bppPArgb */);
 
                     // 畳と盤を合成する。
                     using (var g = Graphics.FromImage(img.image))
@@ -88,16 +89,20 @@ namespace MyShogi.Model.Resource.Images
                         var rect = new Rectangle(0, 0, img.image.Width, img.image.Height);
                         // DrawImageで等倍の転送にするためにはrectの指定が必要
                         g.DrawImage(tatami.image, rect, rect, GraphicsUnit.Pixel);
-                        g.DrawImage(board.image, rect, rect, GraphicsUnit.Pixel);
-                        g.DrawImage(piece_table[piece_table_version].image, rect, rect, GraphicsUnit.Pixel);
+
+                        // Mono環境だと、転送元がalpha付きのDrawImage、うまく転送できないので
+                        // 自前のwrapper経由で行う。
+
+                        DrawImageHelper.DrawImage(g , img.image , board.image, rect, rect, GraphicsUnit.Pixel);
+                        DrawImageHelper.DrawImage(g , img.image , piece_table[piece_table_version].image, rect, rect, GraphicsUnit.Pixel);
 
                         // 駒台が縦長のとき、ネームプレートは別の素材
                         if (piece_table_version == 0)
-                            g.DrawImage(name_plate.image, rect, rect, GraphicsUnit.Pixel);
+                            DrawImageHelper.DrawImage(g, img.image  , name_plate.image, rect, rect, GraphicsUnit.Pixel);
 
                         // 駒箱を合成するのは盤面編集モードの時のみ
                         if (piece_box_exist)
-                            g.DrawImage(piece_box[piece_table_version].image, rect, rect, GraphicsUnit.Pixel);
+                            DrawImageHelper.DrawImage(g, img.image  , piece_box[piece_table_version].image, rect, rect, GraphicsUnit.Pixel);
                     }
 
                     var id = piece_table_version + (piece_box_exist ? 2 : 0);
@@ -431,7 +436,7 @@ namespace MyShogi.Model.Resource.Images
         /// </summary>
         public ImageLoader NoBannerImage = new ImageLoader();
 
-        #region GameEffects
+#region GameEffects
         /// <summary>
         /// 対局開始/終了
         /// </summary>
@@ -471,6 +476,6 @@ namespace MyShogi.Model.Resource.Images
         /// </summary>
         public ImageLoader GamePieceTossImage = new ImageLoader();
 
-        #endregion
+#endregion
     }
 }

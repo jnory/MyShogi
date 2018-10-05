@@ -101,6 +101,11 @@ namespace MyShogi.Model.Shogi.LocalServer
         /// <param name="gameSetting"></param>
         private void GameStart(GameSetting gameSetting)
         {
+            // エンジン検討中であるなら、まずそれを停止させる。(通常検討モードに移行する)
+            // これは、GameModeへの代入によって自動的に処理がなされる。
+            if (GameMode.IsConsiderationWithEngine())
+                GameMode = GameModeEnum.ConsiderationWithoutEngine;
+
             // 持ち時間などの設定が必要なので、
             // GameStart()時点のGameSettingをこのクラスのpropertyとしてコピーしておく。
             GameSetting = gameSetting;
@@ -214,6 +219,26 @@ namespace MyShogi.Model.Shogi.LocalServer
                 TheApp.app.SoundManager.ReadOut(SoundEnum.End);
 
                 return;
+            }
+
+            // エンジンを開始させることが確定したので実際に子プロセスとして起動する。
+            // 1) このタイミングにしないと、Hashが足りなくてユーザーがキャンセルする可能性があって、
+            // それまでにエンジンがタイムアウトになりかねない。
+            // 2) エンジンを起動させてから、Hashの計算をするのでは、エンジンを起動させる時間が無駄である。
+            foreach (var c in All.Colors())
+            {
+                // これ書くの3度目だが、まあしゃーない…。
+                var gamePlayer = gameSetting.PlayerSetting(c);
+                var playerType = gamePlayer.IsHuman ? PlayerTypeEnum.Human : PlayerTypeEnum.UsiEngine;
+
+                if (playerType == PlayerTypeEnum.UsiEngine)
+                {
+                    var engineDefineEx = TheApp.app.EngineDefines.Find(x => x.FolderPath == gamePlayer.EngineDefineFolderPath);
+                    var usiEnginePlayer = Players[(int)c] as UsiEnginePlayer;
+
+                    // これで子プロセスとして起動する。
+                    StartEngine(usiEnginePlayer, engineDefineEx);
+                }
             }
 
             // Restart処理との共通部分
@@ -382,10 +407,12 @@ namespace MyShogi.Model.Shogi.LocalServer
                 string total;
                 if (right.Empty())
                     total = left;
+                else if (left.Empty())
+                    total = right;                  // このとき連結のための"/"要らない
                 else if (left.UnicodeLength() + right.UnicodeLength() < 24)
-                    total = $"{left}/{right}"; // 1行で事足りる
+                    total = $"{left}/{right}";      // 1行で事足りる
                 else
-                    total = $"{left}\r\n{right}"; // 2行に分割する。 
+                    total = $"{left}\r\n{right}";   // 2行に分割する。 
 
                 timeSettingStrings[(int)c] = total;
             }
@@ -482,8 +509,22 @@ namespace MyShogi.Model.Shogi.LocalServer
                 nextGameMode == GameModeEnum.ConsiderationWithMateEngine;
 
             // 実行ファイルを起動する
-            usiEnginePlayer.Start(engineDefine.EngineExeFileName());
+            //usiEnginePlayer.Start(engineDefine.EngineExeFileName());
 
+            // →　このタイミング、早すぎる。
+            // CalcHashでHashが足りることを確認してからにすべき。
+        }
+
+        /// <summary>
+        /// エンジンを開始する。UsiEnginePlayer.Start()を呼び出す。
+        /// InitUsiEnginePlayer()をしたのちに、エンジンに接続したいタイミングで呼び出すべし。
+        /// </summary>
+        /// <param name="usiEnginePlayer"></param>
+        /// <param name="engineDefineEx"></param>
+        private void StartEngine(UsiEnginePlayer usiEnginePlayer , EngineDefineEx engineDefineEx)
+        {
+            // 実行ファイルを起動する
+            usiEnginePlayer.Start(engineDefineEx.EngineDefine.EngineExeFileName());
         }
 
         /// <summary>
@@ -932,7 +973,10 @@ namespace MyShogi.Model.Shogi.LocalServer
                     var ex = engine.Exception;
                     if (ex != null)
                     {
-                        TheApp.app.MessageShow(ex); // これリカバーするの難しいので終了させる。
+                        TheApp.app.MessageShow(ex);
+                        // これリカバーするの難しいので終了させる。
+                        // →　エンジン切断してしまえばあとは無害なはずだが、連続対局を正常に終了しないといけないなど
+                        // 色々な制約があるので、そのへんの検証が必要だから、とりあえずこうしとく。あとで修正するかも。
 
                         engine.Disconnect(); // 切断しとかないと次のRead()でまた例外が発生しかねない。
                         Player(stm).SpecialMove = Move.INTERRUPT;
@@ -1173,6 +1217,9 @@ namespace MyShogi.Model.Shogi.LocalServer
                     // すぐ下でcatchされるので心配いらない。
                     throw new Exception("");
 
+                // エンジンを開始させることが確定したので実際に子プロセスとして起動する。
+                StartEngine(usiEnginePlayer, engineDefineEx);
+
                 // 検討ウィンドウへの読み筋などのリダイレクトを設定
                 InitEngineConsiderationInfo(nextGameMode);
 
@@ -1206,16 +1253,17 @@ namespace MyShogi.Model.Shogi.LocalServer
         {
             try
             {
+                var lastColor = Position.sideToMove;
+
+                // 1) 勝敗のカウンターを加算
+                // (これは棋譜の自動保存が無効であってもなされなくてはならない)
+
+                continuousGame.IncResult(lastMove, lastColor);
+
                 // この対局棋譜を保存しなければならないなら保存する。
                 var setting = TheApp.app.Config.GameResultSetting;
                 if (!setting.AutomaticSaveKifu)
                     return;
-
-                var lastColor = Position.sideToMove;
-
-                // 1) 勝敗のカウンターを加算
-
-                continuousGame.IncResult(lastMove, lastColor);
 
                 // 2) 棋譜ファイルを保存する。
 

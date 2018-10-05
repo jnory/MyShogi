@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using MyShogi.App;
 using MyShogi.Model.Common.Tool;
 
 namespace MyShogi.View.Win2D
@@ -19,13 +20,14 @@ namespace MyShogi.View.Win2D
         {
             InitializeComponent();
 
-            var ListAdded_ = new ListAddedEventHandler(sender =>
+            var ListAdded_ = new ListAddedEventHandler(args =>
             {
-                // UIスレッドからの呼び出しを保証する。
-                if (InvokeRequired)
-                    Invoke(new Action(() => ListAdded(sender)));
-                else
-                    ListAdded(sender);
+                try
+                {
+                    // UIスレッドからの呼び出しを保証する。
+                    TheApp.app.UIThread(() => ListAdded(args));
+                }
+                catch { } // 終了間際だとInvoke()で例外が出るかもしれないので握りつぶしておく。
             });
 
             log.AddHandler(ListAdded_ , ref log_list);
@@ -33,6 +35,9 @@ namespace MyShogi.View.Win2D
             memory_log = log;
 
             UpdateListBox();
+
+            // すぐに入力出来るようにフィルター用のテキストボックスにフォーカスを移動させておく。
+            ActiveControl = textBox1;
         }
 
         /// <summary>
@@ -43,7 +48,7 @@ namespace MyShogi.View.Win2D
         /// <summary>
         /// 保持しているログの内容。
         /// </summary>
-        private List<string> log_list;
+        private Queue<string> log_list;
 
         /// <summary>
         /// [UI thread] : Form.ClientSizeChanged , Load イベントに対するハンドラ。
@@ -97,7 +102,7 @@ namespace MyShogi.View.Win2D
         private void ListAdded(string lastLine)
         {
             // 最後の行だけ追加されたはずであるから、その部分だけを差分更新してやる。
-            log_list.Add(lastLine);
+            log_list.Enqueue(lastLine);
 
             var filter = textBox1.Text;
             string appendLine = null;
@@ -144,22 +149,22 @@ namespace MyShogi.View.Win2D
             Debug.Assert(log_list != null);
 
             // listBox1に表示する内容まとめて生成して、まとめてセットする。
-            List<string> list;
+            Queue<string> list;
             var filter = textBox1.Text;
             if (string.IsNullOrEmpty(filter))
                 list = log_list;
             else
             {
-                list = new List<string>();
+                list = new Queue<string>();
                 try
                 {
                     var regex = new Regex(textBox1.Text);
                     foreach (var t in log_list)
                         if (regex.Match(t).Success)
-                            list.Add(t);
+                            list.Enqueue(t);
                 } catch
                 {
-                    list.Add("-- filterで指定されている正規表現の表記に誤りがあります。 -- ");
+                    list.Enqueue("-- filterで指定されている正規表現の表記に誤りがあります。 -- ");
                 }
             }
 
@@ -185,6 +190,14 @@ namespace MyShogi.View.Win2D
                     sb.AppendLine(text);
                 Clipboard.SetText(sb.ToString());
             }
+#if false
+            // →　デバッグウインドウでこのショートカットキーが利いても嬉しくないか…。
+            else
+            {
+                // メインウインドウのメニューに登録されているキーボードショートカットをハンドルする。
+                TheApp.app.KeyShortcut.KeyDown(sender, e);
+            }
+#endif
         }
 
         /// <summary>

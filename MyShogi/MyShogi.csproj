@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,7 +28,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -56,6 +56,28 @@
   <PropertyGroup>
     <ApplicationIcon>YaneuraOu.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'macOS|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\macOS\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MONO;MACOS</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.2</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Linux|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Linux\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MONO;LINUX</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.2</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="App\GlobalConfig.cs" />
     <Compile Include="App\TheApp.cs" />
@@ -65,9 +87,10 @@
     <Compile Include="Model\Common\Tool\MostRecentUsedFiles.cs" />
     <Compile Include="Model\Common\ObjectModel\ControlBinder.cs" />
     <Compile Include="Model\Common\ObjectModel\NotifyCollection.cs" />
-    <Compile Include="Model\Common\Process\RemoteService.cs" />
     <Compile Include="Model\Common\String\CommandLineParser.cs" />
-    <Compile Include="Model\Common\Utility\CpuId.cs" />
+    <Compile Include="Model\Common\Utility\ExceptionExtensions.cs" />
+    <Compile Include="Model\Common\Utility\SafeClipboard.cs" />
+    <Compile Include="Model\Dependent\Windows\CpuId.cs" />
     <Compile Include="Model\Common\String\CsvParser.cs" />
     <Compile Include="Model\Common\String\CsvTable.cs" />
     <Compile Include="Model\Common\Utility\Encode.cs" />
@@ -81,9 +104,12 @@
     <Compile Include="Model\Common\String\Serializer.cs" />
     <Compile Include="Model\Common\Collections\StringExtensions.cs" />
     <Compile Include="Model\Common\Math\Rand.cs" />
+    <Compile Include="Model\Dependent\Mono\MonoAPI.cs" />
+    <Compile Include="Model\Dependent\Windows\WindowsAPI.cs" />
     <Compile Include="Model\Shogi\Converter\SvgUtility.cs" />
     <Compile Include="Model\Common\Utility\Swap.cs" />
     <Compile Include="View\Win2D\Common\ClickAction.cs" />
+    <Compile Include="View\Win2D\Common\KeyboardShortcutHelper.cs" />
     <Compile Include="View\Win2D\Common\MenuStripEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -91,10 +117,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="View\Win2D\Common\ToolTipHelper.cs" />
-    <Compile Include="Model\Common\Win32\Win32API.cs" />
     <Compile Include="Model\Resource\Images\AnimatorManager.cs" />
     <Compile Include="Model\Resource\Images\SpriteEx.cs" />
-    <Compile Include="Model\Resource\Sounds\SoundLoader.cs" />
     <Compile Include="Model\Resource\Sounds\SoundEnum.cs" />
     <Compile Include="Model\Resource\Sounds\SoundManager.cs" />
     <Compile Include="Model\Resource\Sounds\SoundQueue.cs" />
@@ -475,6 +499,7 @@
     <None Include="app.manifest" />
     <None Include="docs\dev_manual.md" />
     <None Include="docs\faq.md" />
+    <None Include="docs\Mac、Linuxで動作させるには.md" />
     <None Include="docs\online_manual.md" />
     <None Include="docs\PSN2format.md" />
     <None Include="docs\USI2.0.md" />

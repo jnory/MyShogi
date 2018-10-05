@@ -31,6 +31,8 @@ namespace MyShogi.App
                         // 専用のダイアログなのでメインウインドウに対してセンタリングも楽ちん
                         if (parent != null)
                             FormLocationUtility.CenteringToThisForm(dialog, parent);
+
+                        FontUtility.ReplaceFont(dialog);
                         dialog.ShowDialog();
                     }
                     return DialogResult.OK;
@@ -83,22 +85,26 @@ namespace MyShogi.App
         {
             if (exit)
             {
-                MessageShow("例外が発生しましたので終了します。\r\n例外内容 : " + ex.Message + "\r\nスタックトレース : \r\n" + ex.StackTrace,
-                    MessageShowType.Exception);
+                var message = "例外が発生しましたので終了します。\r\n" + ex.Pretty();
+
+                // Mono環境でコマンドラインからコマンドを叩いているときにコンソールに
+                // 例外内容が表示されたほうがデバッグしやすいのでConsoleにも出力する。
+                Console.WriteLine(message);
+
+                MessageShow(message , MessageShowType.Exception);
                 ApplicationExit();
             } else
             {
-                MessageShow("例外が発生しました。\r\n例外内容 : " + ex.Message + "\r\nスタックトレース : \r\n" + ex.StackTrace,
-                    MessageShowType.Exception);
+                MessageShow("例外が発生しました。\r\n" + ex.Pretty() , MessageShowType.Exception);
             }
         }
 
         public void ApplicationExit()
         {
-            // 検討ウィンドウがあると閉じるのを阻害する。(window closingに対してCancelしているので)
-            // 検討ウィンドウはメインウインドウにぶら下がっているはずなので、メインウインドウを終了させてしまう。
+            // DockWindowがあると閉じるのを阻害する。(window closingに対してCancelしているので)
+            // DockWindowはメインウインドウにぶら下がっているはずなので、メインウインドウを終了させてしまう。
 
-            Exiting = true; // このフラグを検討ウィンドウから見に来ている。
+            Exiting = true; // このフラグをDockWindowから見に来ている。
 
             Application.Exit(); // 終了させてしまう。
         }
@@ -116,25 +122,48 @@ namespace MyShogi.App
 
         /// <summary>
         /// UI threadで実行したい時にこれを用いる。
+        ///
+        /// 1) UIスレッドでのactionの実行完了を待つ。
+        /// 2) UI Threadで発生した例外はUI Threadを抜けて伝播する。
         /// </summary>
         /// <param name="action"></param>
         public void UIThread(Action action)
         {
-            var a = new Action(() =>
+            if (mainForm != null && mainForm.IsHandleCreated && !mainForm.IsDisposed)
             {
-                try
+                if (mainForm.InvokeRequired)
                 {
+                    Exception e = null;
+                    try
+                    {
+                        mainForm.Invoke((Action)( ()=>
+                        {
+                            try
+                            {
+                                action();
+                            } catch (Exception ex)
+                            {
+                                e = ex;
+                            }
+                        }));
+                        // これで結果が返るまで待つはず..
+                        // ここでウィンドウが破棄される可能性があるので成功するとは限らない。
+                    }
+                    catch { }
+
+                    // Invoke()中に親Windowが解体されたなら例外は無視して良いが、
+                    // さもなくば、このUI Thread内で発生した例外を伝播する必要がある。
+                    if (e != null)
+                        throw e;
+                }
+                else
                     action();
-                }
-                catch (Exception ex)
-                {
-                    MessageShow(ex);
-                }
-            });
-            if (mainForm == null)
-                a();
+            }
             else
-                mainForm.BeginInvoke(a);
+            {
+                // メインウインドウ、解体後。
+                action();
+            }
         }
 
     }
