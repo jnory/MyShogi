@@ -43,7 +43,7 @@
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.White;
-			this.textBox1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
+            this.textBox1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox1.Location = new System.Drawing.Point(2, 2);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
@@ -55,7 +55,7 @@
             // textBox2
             // 
             this.textBox2.BackColor = System.Drawing.Color.White;
-			this.textBox2.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
+            this.textBox2.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox2.Location = new System.Drawing.Point(178, 2);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
@@ -67,7 +67,7 @@
             // textBox3
             // 
             this.textBox3.BackColor = System.Drawing.Color.White;
-			this.textBox3.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
+            this.textBox3.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox3.Location = new System.Drawing.Point(316, 2);
             this.textBox3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox3.Name = "textBox3";
@@ -79,7 +79,7 @@
             // textBox4
             // 
             this.textBox4.BackColor = System.Drawing.Color.White;
-			this.textBox4.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
+            this.textBox4.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox4.Location = new System.Drawing.Point(484, 2);
             this.textBox4.Margin = new System.Windows.Forms.Padding(2);
             this.textBox4.Name = "textBox4";
@@ -91,7 +91,7 @@
             // textBox5
             // 
             this.textBox5.BackColor = System.Drawing.Color.White;
-			this.textBox5.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
+            this.textBox5.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox5.Location = new System.Drawing.Point(612, 2);
             this.textBox5.Margin = new System.Windows.Forms.Padding(2);
             this.textBox5.Name = "textBox5";
@@ -105,7 +105,7 @@
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.comboBox1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 11.25F);
+            this.comboBox1.Font = new System.Drawing.Font("ＭＳ ゴシック", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "候補手１手",
@@ -133,7 +133,7 @@
             // 
             // button1
             // 
-			this.button1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 11.25F);
+            this.button1.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button1.Location = new System.Drawing.Point(103, 26);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
@@ -147,7 +147,7 @@
             // listView1
             // 
             this.listView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.listView1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 11.25F);
+            this.listView1.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 92);
             this.listView1.Margin = new System.Windows.Forms.Padding(2);
@@ -172,7 +172,7 @@
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.listView1);
-			this.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 11.25F);
+            this.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "EngineConsiderationControl";
             this.Size = new System.Drawing.Size(762, 208);

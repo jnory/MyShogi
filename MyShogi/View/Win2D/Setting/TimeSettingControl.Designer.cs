@@ -56,7 +56,6 @@
             // 
             // checkBox2
             // 
-			this.checkBox2.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(256, 122);
             this.checkBox2.Name = "checkBox2";
@@ -82,7 +81,6 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
-			this.groupBox1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.groupBox1.Location = new System.Drawing.Point(0, 4);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
@@ -107,7 +105,6 @@
             // 
             // label4
             // 
-			this.label4.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(338, 22);
             this.label4.Name = "label4";
@@ -117,7 +114,6 @@
             // 
             // checkBox1
             // 
-			this.checkBox1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(13, 91);
             this.checkBox1.Name = "checkBox1";
@@ -186,7 +182,6 @@
             // 
             // label6
             // 
-			this.label6.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(184, 67);
             this.label6.Name = "label6";
@@ -196,7 +191,6 @@
             // 
             // label5
             // 
-			this.label5.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(184, 44);
             this.label5.Name = "label5";
@@ -206,7 +200,6 @@
             // 
             // label3
             // 
-			this.label3.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(268, 23);
             this.label3.Name = "label3";
@@ -216,7 +209,6 @@
             // 
             // label2
             // 
-			this.label2.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(184, 22);
             this.label2.Name = "label2";
@@ -226,7 +218,6 @@
             // 
             // label1
             // 
-			this.label1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(10, 22);
             this.label1.Name = "label1";
@@ -237,7 +228,6 @@
             // 
             // radioButton2
             // 
-			this.radioButton2.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.radioButton2.AutoSize = true;
             this.radioButton2.Location = new System.Drawing.Point(12, 66);
             this.radioButton2.Name = "radioButton2";
@@ -250,7 +240,6 @@
             // 
             // radioButton1
             // 
-			this.radioButton1.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 9F);
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = true;
             this.radioButton1.Location = new System.Drawing.Point(12, 43);
@@ -268,7 +257,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.groupBox1);
-			this.Font = new System.Drawing.Font(MyShogi.App.TheApp.app.Config.Font, 11.25F);
+            this.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.Name = "TimeSettingControl";
             this.Size = new System.Drawing.Size(379, 129);
