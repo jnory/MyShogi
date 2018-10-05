@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using MyShogi.App;
 using MyShogi.Model.Resource.Images;
 
 namespace MyShogi.View.Win2D

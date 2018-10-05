@@ -27,7 +27,7 @@ namespace MyShogi.View.Win2D
         {
             /// <summary>
             /// 棋譜リスト上の現在選択されている行
-            ///
+            /// 
             /// 双方向databindによって、LocalGameServerの同名のプロパティと紐付けられている。
             /// </summary>
             public int KifuListSelectedIndex
@@ -144,7 +144,7 @@ namespace MyShogi.View.Win2D
 
         /// <summary>
         /// [UI thread] : 内部状態が変わったのでボタンの有効、無効を更新するためのハンドラ。
-        ///
+        /// 
         /// ViewModel.InTheGameが変更になった時に呼び出される。
         /// </summary>
         /// <param name="inTheGame"></param>
@@ -229,7 +229,7 @@ namespace MyShogi.View.Win2D
         /// <summary>
         /// [UI thread] : 親ウインドウがリサイズされた時にそれに収まるようにこのコントロール内の文字の大きさを調整する。
         /// (MainWindowに埋め込んでいるときに、リサイズに対して呼び出される)
-        ///
+        /// 
         /// inTheGame == trueのときはゲーム中なので「本譜」ボタンと「次分岐」ボタンを表示しない。
         /// </summary>
         /// <param name="scale"></param>
@@ -282,6 +282,9 @@ namespace MyShogi.View.Win2D
             last_font_size = font_size;
 
             var font = FontUtility.ReplaceFont(new Font("MS Gothic", font_size, FontStyle.Regular, GraphicsUnit.Pixel));
+            FontUtility.SetFont( listBox1 , font);
+
+            // buttonのFontSizeあまり変更すると高さが足りなくなるので横幅の比率変更は反映させない。
             var buttons = new[] { button1, button2, button3, button4, button5, button6 };
             foreach(var b in buttons)
             {
@@ -311,7 +314,7 @@ namespace MyShogi.View.Win2D
             ViewModel.SetKifuListSelectedIndex(listBox1.Items.Count - 1);
             ViewModel.KifuListCount = listBox1.Items.Count;
             ViewModel.KifuList.Add(line); // ここも同期させておく。
-
+            
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
 
             // item数が変化したはずなので、「消一手」ボタンを更新する。
@@ -333,7 +336,7 @@ namespace MyShogi.View.Win2D
             ViewModel.SetKifuListSelectedIndex(listBox1.Items.Count - 1);
             ViewModel.KifuListCount = listBox1.Items.Count;
             ViewModel.KifuList.RemoveAt(ViewModel.KifuList.Count - 1); // ここも同期させておく。
-
+            
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
 
             // 1手戻った結果、「次分岐」があるかも知れないのでそのボタン状態を更新する。
@@ -514,7 +517,7 @@ namespace MyShogi.View.Win2D
                 button1.Enabled = e;
 
                 if (e)
-                    item = item.Substring(1,1); // 1文字目をskipして2文字目を取得
+                    item = item.Substring(1,1); // 1文字目をskipして2文字目を取得 
 
                 var e2 = item.StartsWith("+") || item.StartsWith("*");
                 button2.Enabled = e2;
@@ -591,10 +594,10 @@ namespace MyShogi.View.Win2D
                     fontsize = 30f;
                 TheApp.app.Config.KifuWindowFontSize = fontsize; // writeback
 
-			    var font = new Font(MyShogi.App.TheApp.app.Config.Font, fontsize);
+                var font = FontUtility.ReplaceFont(new Font("MS Gothic", fontsize , FontStyle.Regular, GraphicsUnit.Point));
                 FontUtility.SetFont(listBox1, font);
 
-			    var font2 = new Font(MyShogi.App.TheApp.app.Config.Font, 11.25F);
+                var font2 = FontUtility.ReplaceFont(new Font("MS Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point));
 
                 FontUtility.SetFont(button1, font2);
                 FontUtility.SetFont(button2, font2);
@@ -641,7 +644,7 @@ namespace MyShogi.View.Win2D
 
         /// <summary>
         /// 文字を小さくする「-」ボタン
-        ///
+        /// 
         /// ウインドウ時のみ有効。
         /// </summary>
         /// <param name="sender"></param>
@@ -685,7 +688,7 @@ namespace MyShogi.View.Win2D
                 {
                     if ((e.State & DrawItemState.Selected) != DrawItemState.Selected)
                     {
-                        /*
+                        /*                        
                                                 //選択されていない行
                                                 if (e.Index < 2)
                                                 {

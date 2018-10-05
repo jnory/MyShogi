@@ -23,7 +23,7 @@ namespace MyShogi.Model.Shogi.EngineDefine
     {
         /// <summary>
         /// 実行ファイルのファイル名の末尾につけるsuffixを返す。
-        ///
+        /// 
         /// 例) AVX2用なら、"engine_avx2"のようになるので"avx2"を返す。
         /// </summary>
         /// <param name="cpu"></param>

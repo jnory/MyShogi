@@ -124,7 +124,7 @@ namespace MyShogi.Model.Dependent
 
     /// <summary>
     /// MonoやUbuntuではClipboardの仕組みが異なるので、標準のClipboardクラスではなくこちらを用いる。
-    ///
+    /// 
     /// cf.
     /// Mono, Ubuntu and Clipboard : https://www.medo64.com/2011/01/mono-ubuntu-and-clipboard/
     /// Clipboard Plugin for Xamarin, Windows & Gtk2 : https://github.com/stavroskasidis/XamarinClipboardPlugin
@@ -183,7 +183,7 @@ namespace MyShogi.Model.Dependent
     /// <summary>
     /// MonoでGraphics.DrawImage()で転送元が半透明かつ、転送先がCreateBitmap()したBitmapだと
     /// 転送元のalphaが無視されるので、DrawImage()をwrapする。
-    ///
+    /// 
     /// Monoではこの挙動、きちんと実装されていない。(bugだと言えると思う)
     /// Monoは、GDIPlusまわりの実装、いまだにおかしいところ多い。
     /// </summary>
@@ -274,7 +274,7 @@ namespace MyShogi.Model.Resource.Sounds
 {
     /// <summary>
     /// wavファイル一つのwrapper。
-    ///
+    /// 
     /// 他の環境に移植する場合は、このクラスをその環境用に再実装すべし。
     /// </summary>
     public class SoundLoader : IDisposable
