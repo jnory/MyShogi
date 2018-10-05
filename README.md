@@ -25,6 +25,11 @@
 起動しても真っ暗な画面が表示される場合、画像が読み込まれていません。
 https://github.com/jnory/MyShogiImages をMyShogi.exeがあるフォルダ内にimageという名前でcloneすると「とりあえず」画面が描画されるようになります。(一部足りないかも)
 
+# エンジン設定について
+
+エンジンの設定例をここ https://github.com/jnory/MyShogiEngineSample にアップロードしています。
+
+
 (以下はオリジナルのREADME)
 
 # About this project
