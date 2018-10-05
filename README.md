@@ -9,13 +9,16 @@
 * メッセージダイアログの文字化けが直せていません
 * すべての機能を動作確認できているわけではありません(たまに落ちます)
 
+# 事前準備
+> nuget install Microsoft.Net.Compilers
+
 # ビルド方法
 
-> msbuild ../MyShogi.sln /p:Configuration=Debug
+> msbuild ../MyShogi.sln /p:Configuration=macOS
 
 # 起動方法
 
-> mono --arch=32 bin/Debug/MyShogi.exe
+> mono --arch=32 bin/macOS/MyShogi.exe
 
 # 画像集について
 
