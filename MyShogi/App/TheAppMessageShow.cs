@@ -22,7 +22,7 @@ namespace MyShogi.App
 
             var show = new Func<Form,DialogResult>((parent) =>
             {
-                using (var dialog = new ExceptionDialog())
+                using (var dialog = new ExceptionDialog(type != MessageShowType.Exception))
                 {
                     dialog.SetMessage(text);
                     // 専用のダイアログなのでメインウインドウに対してセンタリングも楽ちん

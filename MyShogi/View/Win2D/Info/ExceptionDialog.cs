@@ -5,9 +5,13 @@ namespace MyShogi.View.Win2D
 {
     public partial class ExceptionDialog : Form
     {
-        public ExceptionDialog()
+        public ExceptionDialog(bool isWarning)
         {
             InitializeComponent();
+            if (isWarning)
+            {
+                label1.Text = "警告があります。詳しい内容は以下の通りです。";
+            }
 
             Init();
         }
