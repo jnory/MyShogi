@@ -22,33 +22,17 @@ namespace MyShogi.App
 
             var show = new Func<Form,DialogResult>((parent) =>
             {
-                if (type == MessageShowType.Exception)
+                using (var dialog = new ExceptionDialog())
                 {
-                    // 例外のときだけ、コピペできるように専用のDialogを出す。
-                    using (var dialog = new ExceptionDialog())
-                    {
-                        dialog.SetMessage(text);
-                        // 専用のダイアログなのでメインウインドウに対してセンタリングも楽ちん
-                        if (parent != null)
-                            FormLocationUtility.CenteringToThisForm(dialog, parent);
-
-                        FontUtility.ReplaceFont(dialog);
-                        dialog.ShowDialog();
-                    }
-                    return DialogResult.OK;
-                }
-                else
-                {
-                    // これセンタリングしたいのだが、メッセージフックしないと不可能。
-                    // cf.
-                    //   オーナーウィンドウの中央にメッセージボックスを表示する (C#プログラミング)
-                    //   https://www.ipentec.com/document/csharp-show-message-box-in-center-of-owner-window
-
+                    dialog.SetMessage(text);
+                    // 専用のダイアログなのでメインウインドウに対してセンタリングも楽ちん
                     if (parent != null)
-                        return MessageBox.Show(parent, text, caption, buttons, icon);
-                    else
-                        return MessageBox.Show(text, caption, buttons, icon);
+                        FormLocationUtility.CenteringToThisForm(dialog, parent);
+
+                    FontUtility.ReplaceFont(dialog);
+                    dialog.ShowDialog();
                 }
+                return DialogResult.OK;
             });
 
             if (mainForm != null && mainForm.IsHandleCreated && !mainForm.IsDisposed)
