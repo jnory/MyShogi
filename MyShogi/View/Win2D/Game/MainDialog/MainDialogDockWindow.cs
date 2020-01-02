@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 using MyShogi.App;
 using MyShogi.Model.Common.ObjectModel;
@@ -7,6 +7,7 @@ using MyShogi.Model.Common.Utility;
 using MyShogi.Model.Shogi.Data;
 using MyShogi.Model.Shogi.Kifu;
 using MyShogi.Model.Shogi.LocalServer;
+using MyShogi.View.Win2D.Info;
 using MyShogi.View.Win2D.Setting;
 
 namespace MyShogi.View.Win2D
@@ -49,6 +50,11 @@ namespace MyShogi.View.Win2D
 
             config.MiniShogiBoardDockManager.AddPropertyChangedHandler("DockState", UpdateMiniShogiBoardDockState);
             config.MiniShogiBoardDockManager.AddPropertyChangedHandler("DockPosition", UpdateMiniShogiBoardDockState);
+
+            config.EvalGraphDockManager.AddPropertyChangedHandler("DockState", UpdateEvalGraphState);
+            config.EvalGraphDockManager.AddPropertyChangedHandler("DockPosition", UpdateEvalGraphState);
+
+            evalGraphDialog = new EvalGraphDialog();
         }
 
         /// <summary>
@@ -73,6 +79,11 @@ namespace MyShogi.View.Win2D
             {
                 dock.Visible ^= true;
                 dock.RaisePropertyChanged("DockState", dock.DockState);
+            }
+
+            if (!consideration && !evalGraphDialog.Visible)
+            {
+                evalGraphDialog.Show();
             }
 
             gameServer.ChangeGameModeCommand(
@@ -402,6 +413,44 @@ namespace MyShogi.View.Win2D
         }
 
         /// <summary>
+        /// UpdateKifuWindowDockState()の評価値グラフ用。
+        /// </summary>
+        private void UpdateEvalGraphState(PropertyChangedEventArgs args)
+        {
+            var dockState = (DockState)args.value;
+
+            var dockManager = TheApp.app.Config.EvalGraphDockManager;
+            dockManager.DockState = dockState; // 次回起動時のためにここに保存しておく。
+
+            // デフォルト位置とサイズにする。
+            if (dockManager.Size.IsEmpty)
+            {
+                // デフォルトでは、このウインドウサイズに従う
+                dockManager.Size = new Size(Width/4 , Height / 4);
+
+                //var pos = miniShogi.CalcKifuWindowLocation();
+                //// これクライアント座標なので、スクリーン座標にいったん変換する。
+                //pos = gameScreenControl1.PointToScreen(pos);
+
+                var pos = new Point(0, 0);
+                dockManager.LocationOnDocked = new Point(pos.X - this.Location.X, pos.Y - this.Location.Y);
+                dockManager.LocationOnFloating = pos;
+            }
+
+            // Showで表示とサイズが確定してからdockManagerを設定しないと、
+            // Showのときの位置とサイズがdockManagerに記録されてしまう。
+
+            var consideration = gameServer.GameMode == GameModeEnum.ConsiderationWithEngine;
+            if (consideration && !evalGraphDialog.Visible)
+            {
+                evalGraphDialog.Visible = true;
+                dockManager.InitDockWindowLocation(this, evalGraphDialog);
+
+                evalGraphDialog.Show();
+            }
+        }
+
+        /// <summary>
         /// 検討ウインドウでの右クリックメニュー「メイン棋譜にこの読み筋を分岐棋譜として送る(&S)」
         /// </summary>
         /// <param name="board"></param>
@@ -438,6 +487,6 @@ namespace MyShogi.View.Win2D
             var sfen = Model.Shogi.Core.Util.RootSfenAndMovesToUsiString(board.rootSfen, board.moves);
             gameServer.KifuReadCommand(sfen , false , true);
         }
-        
+
     }
 }

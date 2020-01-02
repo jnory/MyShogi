@@ -63,14 +63,6 @@ namespace MyShogi.View.Win2D
         /// </summary>
         public DockWindow miniShogiBoardDockWindow;
 
-
-#if false
-        /// <summary>
-        /// 評価値グラフの出力用
-        /// </summary>
-        public Info.EvalGraphDialog evalGraphDialog;
-#endif
-
         // -- 単独ウインドウ
 
         /// <summary>
@@ -78,5 +70,9 @@ namespace MyShogi.View.Win2D
         /// </summary>
         public Form debugDialog;
 
+        /// <summary>
+        /// 評価値グラフの出力用
+        /// </summary>
+        public Info.EvalGraphDialog evalGraphDialog;
     }
 }

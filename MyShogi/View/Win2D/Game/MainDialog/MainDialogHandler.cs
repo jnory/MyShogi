@@ -52,6 +52,7 @@ namespace MyShogi.View.Win2D
                 config.KifuWindowDockManager.RaisePropertyChanged("DockState", config.KifuWindowDockManager.DockState);
                 config.EngineConsiderationWindowDockManager.RaisePropertyChanged("DockState", config.EngineConsiderationWindowDockManager.DockState);
                 config.MiniShogiBoardDockManager.RaisePropertyChanged("DockState", config.MiniShogiBoardDockManager.DockState);
+                config.EvalGraphDockManager.RaisePropertyChanged("DockState", config.EvalGraphDockManager.DockState);
 
                 // メインウインドウが表示されるまで、棋譜ウインドウの座標設定などを抑制していたのでここでメインウインドウ相対で移動させてやる。
                 UpdateDockedWindowLocation();
@@ -176,6 +177,15 @@ namespace MyShogi.View.Win2D
                 }
             }
 
+            // 評価値グラフ
+            {
+                if (evalGraphDialog != null)
+                {
+                    var dockManager = TheApp.app.Config.EvalGraphDockManager;
+                    dockManager.UpdateDockWindowLocation(this, evalGraphDialog);
+                }
+            }
+
         }
 
         /// <summary>
@@ -284,7 +294,6 @@ namespace MyShogi.View.Win2D
             var message = args.value as UsiThinkReportMessage;
             engineConsiderationMainControl.EnqueueThinkReportMessage(message);
 
-#if false // このデバッグをしているとマスターアップに間に合わなさそう。後回し。
             // 評価値グラフの更新など
             gameServer.ThinkReportChangedCommand(message);
 
@@ -300,8 +309,6 @@ namespace MyShogi.View.Win2D
             }
             evalGraphDialog.DispatchEvalGraphUpdate(gameServer);
             cancelEvalGraph:;
-#endif
-
         }
 
         /// <summary>
