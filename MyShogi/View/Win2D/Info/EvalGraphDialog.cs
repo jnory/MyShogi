@@ -1,4 +1,6 @@
-﻿namespace MyShogi.View.Win2D.Info
+﻿using MyShogi.App;
+
+namespace MyShogi.View.Win2D.Info
 {
     /// <summary>
     /// 形勢グラフ
@@ -14,6 +16,7 @@
             graphType = Model.Shogi.Data.EvaluationGraphType.TrigonometricSigmoid;
             reverse = false;
             InitializeComponent();
+            FontUtility.ReplaceFont(this, TheApp.app.Config.FontManager.SettingDialog);
         }
 
         public void DispatchEvalGraphUpdate(Model.Shogi.LocalServer.LocalGameServer gameServer)
