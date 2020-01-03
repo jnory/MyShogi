@@ -121,19 +121,20 @@ namespace MyShogi.View.Win2D
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.tabControl1.Location = new System.Drawing.Point(2, 6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(187, 226);
-            this.tabControl1.TabIndex = 2;
+            this.tabControl1.TabIndex = 1;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.miniShogiBoard1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 21);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(179, 200);
+            this.tabPage1.Size = new System.Drawing.Size(179, 201);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "ミニ盤面";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -155,7 +156,7 @@ namespace MyShogi.View.Win2D
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Size = new System.Drawing.Size(179, 200);
             this.tabPage2.TabIndex = 0;
-            this.tabPage2.Text = "評価値";
+            this.tabPage2.Text = "形勢グラフ";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // evalGraphControl1

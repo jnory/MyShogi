@@ -360,7 +360,6 @@ namespace MyShogi.View.Win2D
                 return; // 追加されてますけど？
             tabPage1.Controls.Add(miniShogiBoard1);
             tabControl1.TabPages.Insert(0, tabPage1);
-            tabControl1.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -387,7 +386,6 @@ namespace MyShogi.View.Win2D
                 return; // 追加されてますけど？
             tabPage2.Controls.Add(evalGraphControl1);
             tabControl1.TabPages.Add(tabPage2);
-            tabControl1.SelectedIndex = tabControl1.TabCount - 1;
         }
 
         /// <summary>

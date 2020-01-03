@@ -327,7 +327,7 @@ namespace MyShogi.View.Win2D
                     float height_rate = 1 + 0.25f * config.ConsiderationWindowHeightType;
 
                     // 検討ウインドウの縦幅
-                    var ch = (int)(height_rate * h / 5);
+                    var ch = (int)(height_rate * h / 4);
 
                     DockUtility.Change(gameScreenControl1, DockStyle.None, new Size(w, h - ch), null /*いまの場所*/ );
                     DockUtility.Change(engineConsiderationMainControl, DockStyle.None, new Size(w, ch), new Point(0, ClientSize.Height - ch));
