@@ -104,7 +104,7 @@ namespace MyShogi.Model.Shogi.Usi
         /// bestmoveが返ってきてから次のthinkを行う。
         /// </summary>
         /// <param name="usiPositionString"></param>
-        public void Think(string usiPositionString , UsiThinkLimit limit , Color sideToMove)
+        public void Think(string usiPositionString , UsiThinkLimit limit , Color sideToMove, Kifu.KifuNode node)
         {
             if (State != UsiEngineState.InTheGame)
             {
@@ -119,9 +119,9 @@ namespace MyShogi.Model.Shogi.Usi
             }
 
             if (IsMateSearch)
-                ThinkingBridge.Think($"position {usiPositionString}" , $"go {limit.ToUsiMateString(sideToMove)}");
+                ThinkingBridge.Think($"position {usiPositionString}" , $"go {limit.ToUsiMateString(sideToMove)}", node);
             else
-                ThinkingBridge.Think($"position {usiPositionString}" , $"go {limit.ToUsiString(sideToMove)}");
+                ThinkingBridge.Think($"position {usiPositionString}" , $"go {limit.ToUsiString(sideToMove)}", node);
         }
 
         /// <summary>
@@ -740,6 +740,9 @@ namespace MyShogi.Model.Shogi.Usi
                     // 思考時間はgoコマンドからの時間を用いる。
                     // 思考エンジンから送られてきた値は採用しない。
                     info.ElapsedTime = ThinkingBridge.ElapsedTime;
+
+                    // 受信したinfoに対応する元のKifuNodeを取得する。
+                    info.KifuNode = ThinkingBridge.CurrentNode;
 
                     ThinkReport = info;
                 }
