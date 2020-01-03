@@ -83,6 +83,10 @@ namespace MyShogi.View.Win2D
 
             if (!consideration && !evalGraphDialog.Visible)
             {
+                if(evalGraphDialog.IsDisposed)
+                {
+                    evalGraphDialog = new EvalGraphDialog();
+                }
                 evalGraphDialog.Show();
             }
 
