@@ -297,18 +297,21 @@ namespace MyShogi.View.Win2D
             // 評価値グラフの更新など
             gameServer.ThinkReportChangedCommand(message);
 
-            if (evalGraphDialog == null)
+            var dockManager = TheApp.app.Config.EvalGraphDockManager;
+            if (!dockManager.Visible)
             {
-                evalGraphDialog = new Info.EvalGraphDialog();
-                // ToDo: 要らない時は形勢グラフウィンドウを開かないようにするべき？
-                evalGraphDialog.Visible = true;
+                return;
             }
-            else if (evalGraphDialog.IsDisposed || !evalGraphDialog.Visible)
+
+            if (dockManager.DockState == Model.Common.Tool.DockState.InTheMainWindow)
             {
-                goto cancelEvalGraph;
+                var graphData = gameServer.GetEvaluationGraphDataCommand(Model.Shogi.Data.EvaluationGraphType.TrigonometricSigmoid, false);
+                evalGraphControl.OnEvalDataChanged(new Model.Common.ObjectModel.PropertyChangedEventArgs("EvalData", graphData));
             }
-            evalGraphDialog.DispatchEvalGraphUpdate(gameServer);
-            cancelEvalGraph:;
+            else if (!evalGraphDialog.IsDisposed)
+            {
+                evalGraphDialog.DispatchEvalGraphUpdate(gameServer);
+            }
         }
 
         /// <summary>

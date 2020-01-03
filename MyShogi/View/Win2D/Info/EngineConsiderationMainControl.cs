@@ -331,6 +331,12 @@ namespace MyShogi.View.Win2D
         public MiniShogiBoard MiniShogiBoard { get { return miniShogiBoard1; } }
 
         /// <summary>
+        /// 形勢グラフのinstanceを返す。
+        /// RemoveEvalGraph()しているときも有効。(nullにはならない)
+        /// </summary>
+        public EvalGraphControl EvalGraphControl { get { return evalGraphControl1;  } }
+
+        /// <summary>
         /// ミニ盤面をこのControlから除外する。
         /// </summary>
         public void RemoveMiniShogiBoard()
@@ -355,6 +361,33 @@ namespace MyShogi.View.Win2D
             tabPage1.Controls.Add(miniShogiBoard1);
             tabControl1.TabPages.Insert(0, tabPage1);
             tabControl1.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// 形勢グラフをこのControlから除外する。
+        /// </summary>
+        public void RemoveEvalGraph()
+        {
+            if (!tabControl1.TabPages.Contains(tabPage2))
+                return; // 追加されてませんけど？
+            tabControl1.TabPages.Remove(tabPage2);
+
+            tabPage2.Controls.Remove(evalGraphControl1);
+            if(tabControl1.TabCount == 0) MiniShogiBoardTabVisible = false;
+        }
+
+        /// <summary>
+        /// 形勢グラフをこのControlに戻す。
+        /// RemoveEvalGraph()で除外していたものを元に戻す。
+        /// </summary>
+        public void AddEvalGraph()
+        {
+            MiniShogiBoardTabVisible = true;
+            if (tabControl1.TabPages.Contains(tabPage2))
+                return; // 追加されてますけど？
+            tabPage2.Controls.Add(evalGraphControl1);
+            tabControl1.TabPages.Add(tabPage2);
+            tabControl1.SelectedIndex = tabControl1.TabCount - 1;
         }
 
         /// <summary>

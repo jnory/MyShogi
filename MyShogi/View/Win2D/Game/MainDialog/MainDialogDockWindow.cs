@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using MyShogi.App;
 using MyShogi.Model.Common.ObjectModel;
@@ -53,8 +53,6 @@ namespace MyShogi.View.Win2D
 
             config.EvalGraphDockManager.AddPropertyChangedHandler("DockState", UpdateEvalGraphState);
             config.EvalGraphDockManager.AddPropertyChangedHandler("DockPosition", UpdateEvalGraphState);
-
-            evalGraphDialog = new EvalGraphDialog();
         }
 
         /// <summary>
@@ -79,15 +77,6 @@ namespace MyShogi.View.Win2D
             {
                 dock.Visible ^= true;
                 dock.RaisePropertyChanged("DockState", dock.DockState);
-            }
-
-            if (!consideration && !evalGraphDialog.Visible)
-            {
-                if(evalGraphDialog.IsDisposed)
-                {
-                    evalGraphDialog = new EvalGraphDialog();
-                }
-                evalGraphDialog.Show();
             }
 
             gameServer.ChangeGameModeCommand(
@@ -426,31 +415,56 @@ namespace MyShogi.View.Win2D
             var dockManager = TheApp.app.Config.EvalGraphDockManager;
             dockManager.DockState = dockState; // 次回起動時のためにここに保存しておく。
 
-            // デフォルト位置とサイズにする。
-            if (dockManager.Size.IsEmpty)
+            if (evalGraphDialog != null)
             {
-                // デフォルトでは、このウインドウサイズに従う
-                dockManager.Size = new Size(Width/4 , Height / 4);
+                evalGraphDialog.RemoveControl();
+                evalGraphDialog.Dispose();
+                evalGraphDialog = null;
+            }
+            engineConsiderationMainControl.RemoveEvalGraph();
 
-                //var pos = miniShogi.CalcKifuWindowLocation();
-                //// これクライアント座標なので、スクリーン座標にいったん変換する。
-                //pos = gameScreenControl1.PointToScreen(pos);
-
-                var pos = new Point(0, 0);
-                dockManager.LocationOnDocked = new Point(pos.X - this.Location.X, pos.Y - this.Location.Y);
-                dockManager.LocationOnFloating = pos;
+            // dockManager.Visibleは反映させないと駄目。
+            if (!dockManager.Visible)
+            {
+                // フォーカス移動されてると困るので戻す。
+                this.Focus();
+                return;
             }
 
-            // Showで表示とサイズが確定してからdockManagerを設定しないと、
-            // Showのときの位置とサイズがdockManagerに記録されてしまう。
-
-            var consideration = gameServer.GameMode == GameModeEnum.ConsiderationWithEngine;
-            if (consideration && !evalGraphDialog.Visible)
+            if (dockState == DockState.InTheMainWindow)
             {
+                engineConsiderationMainControl.AddEvalGraph();
+            }
+            else
+            {
+                evalGraphDialog = new EvalGraphDialog();
+                evalGraphDialog.ViewModel.AddPropertyChangedHandler("MenuUpdated", _ => UpdateMenuItems());
+                evalGraphDialog.Owner = this;
+
+                // デフォルト位置とサイズにする。
+                if (dockManager.Size.IsEmpty)
+                {
+                    // デフォルトでは、このウインドウサイズに従う
+                    dockManager.Size = new Size(Width / 4, Height / 4);
+
+                    //var pos = miniShogi.CalcKifuWindowLocation();
+                    //// これクライアント座標なので、スクリーン座標にいったん変換する。
+                    //pos = gameScreenControl1.PointToScreen(pos);
+
+                    var pos = new Point(0, 0);
+                    dockManager.LocationOnDocked = new Point(this.Location.X, this.Location.Y);
+                    dockManager.LocationOnFloating = pos;
+                }
+
+                // Showで表示とサイズが確定してからdockManagerを設定しないと、
+                // Showのときの位置とサイズがdockManagerに記録されてしまう。
                 evalGraphDialog.Visible = true;
+
+                evalGraphDialog.AddControl(evalGraphControl, this, dockManager);
                 dockManager.InitDockWindowLocation(this, evalGraphDialog);
 
                 evalGraphDialog.Show();
+                System.Console.WriteLine(evalGraphDialog.Location.ToString());
             }
         }
 

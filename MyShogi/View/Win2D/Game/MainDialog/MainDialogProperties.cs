@@ -63,16 +63,24 @@ namespace MyShogi.View.Win2D
         /// </summary>
         public DockWindow miniShogiBoardDockWindow;
 
+
+        // 形勢グラフ
+
+        /// <summary>
+        /// 検討ウインドウに埋まっている形勢グラフのControl。
+        /// 検討ウインドウから外して、Dockして使うときもこのinstanceは有効。
+        /// </summary>
+        public EvalGraphControl evalGraphControl { get { return engineConsiderationMainControl.EvalGraphControl; } }
+        /// <summary>
+        /// 形勢グラフを埋めて使うための入れ物。
+        /// </summary>
+        public Info.EvalGraphDialog evalGraphDialog;
+
         // -- 単独ウインドウ
 
         /// <summary>
         /// デバッグウィンドウ
         /// </summary>
         public Form debugDialog;
-
-        /// <summary>
-        /// 評価値グラフの出力用
-        /// </summary>
-        public Info.EvalGraphDialog evalGraphDialog;
     }
 }
