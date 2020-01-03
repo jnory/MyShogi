@@ -464,7 +464,6 @@ namespace MyShogi.View.Win2D
                 dockManager.InitDockWindowLocation(this, evalGraphDialog);
 
                 evalGraphDialog.Show();
-                System.Console.WriteLine(evalGraphDialog.Location.ToString());
             }
         }
 
