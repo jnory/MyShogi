@@ -312,7 +312,7 @@ namespace MyShogi.View.Win2D
         /// MiniShogiBoardの表示、非表示を切り替えます。
         /// (MiniShogiBoardの乗っかっているSplitConainerの幅をゼロにする。MiniShogiBoard自体は手を加えない。)
         /// </summary>
-        public bool MiniShogiBoardVisible
+        public bool MiniShogiBoardTabVisible
         {
             set {
                 splitContainer2.Panel2.Visible = value;
@@ -335,12 +335,12 @@ namespace MyShogi.View.Win2D
         /// </summary>
         public void RemoveMiniShogiBoard()
         {
-            MiniShogiBoardVisible = false;
-            var mother = splitContainer2.Panel2;
-            if (!mother.Contains(miniShogiBoard1))
+            if (!tabControl1.TabPages.Contains(tabPage1))
                 return; // 追加されてませんけど？
+            tabControl1.TabPages.Remove(tabPage1);
 
-            mother.Controls.Remove(miniShogiBoard1);
+            tabPage1.Controls.Remove(miniShogiBoard1);
+            if(tabControl1.TabCount == 0) MiniShogiBoardTabVisible = false;
         }
 
         /// <summary>
@@ -349,12 +349,12 @@ namespace MyShogi.View.Win2D
         /// </summary>
         public void AddMiniShogiBoard()
         {
-            MiniShogiBoardVisible = true;
-            var mother = splitContainer2.Panel2;
-            if (mother.Contains(miniShogiBoard1))
+            MiniShogiBoardTabVisible = true;
+            if (tabControl1.TabPages.Contains(tabPage1))
                 return; // 追加されてますけど？
-
-            mother.Controls.Add(miniShogiBoard1);
+            tabPage1.Controls.Add(miniShogiBoard1);
+            tabControl1.TabPages.Insert(0, tabPage1);
+            tabControl1.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -472,8 +472,8 @@ namespace MyShogi.View.Win2D
         private void SendPvToMiniboard(MiniShogiBoardData data)
         {
             // 自分がminiShogiBoardを抱えているなら、強制表示。
-            if (Controls.Contains(miniShogiBoard1))
-                MiniShogiBoardVisible = true;
+            if (tabControl1.TabPages.Contains(tabPage1))
+                MiniShogiBoardTabVisible = true;
 
             miniShogiBoard1.BoardData = data;
         }
@@ -493,7 +493,7 @@ namespace MyShogi.View.Win2D
             if (ClientSize.IsEmpty)
                 return;
 
-            var board_height = Math.Max(ClientSize.Height /* - toolStrip1.Height */ , 1);
+            var board_height = Math.Max(tabPage1.Height, 1);
             // →　toolStrip1をMiniShogiBoardに移動させた。
 
             // 継ぎ盤があるなら、その領域は最大でも横幅の1/4まで。
@@ -510,7 +510,7 @@ namespace MyShogi.View.Win2D
             int dist = ClientSize.Width - splitContainer2.SplitterWidth - board_width;
             splitContainer2.SplitterDistance = Math.Max(dist, 1);
 
-            DockMiniBoard(board_width, board_height);
+            DockMiniBoardTab(board_width, board_height);
         }
 
         /// <summary>
@@ -520,7 +520,7 @@ namespace MyShogi.View.Win2D
         private void UpdateBoardHeight(bool splitterAdjest)
         {
             var board_width = Math.Max(ClientSize.Width - splitContainer2.SplitterWidth - splitContainer2.SplitterDistance, 1);
-            var max_board_height = Math.Max(ClientSize.Height /*- toolStrip1.Height */, 1);
+            var max_board_height = Math.Max(tabPage1.Height, 1);
             var board_height = Math.Max((int)(board_width / aspect_ratio), 1);
 
             if (board_height > max_board_height)
@@ -536,18 +536,23 @@ namespace MyShogi.View.Win2D
                 }
             }
 
-            DockMiniBoard(board_width, board_height);
+            DockMiniBoardTab(board_width, board_height);
         }
 
         /// <summary>
         /// miniShogiBoardをToolStripのすぐ上に配置する。
         /// </summary>
-        private void DockMiniBoard(int board_width, int board_height)
+        private void DockMiniBoardTab(int board_width, int board_height)
         {
+            tabControl1.Size = new Size(splitContainer2.Panel2.Width, splitContainer2.Panel2.Height);
+
             // miniShogiBoardをToolStripのすぐ上に配置する。
-            int y = ClientSize.Height - board_height /* - toolStrip1.Height*/;
+            int y = tabPage1.Height - board_height /* - toolStrip1.Height*/;
+
             miniShogiBoard1.Size = new Size(board_width, board_height);
             miniShogiBoard1.Location = new Point(0, y);
+            evalGraphControl1.Size = new Size(tabPage2.Width, tabPage2.Height);
+            evalGraphControl1.Location = new Point(0, 0);
         }
 
         /// <summary>
@@ -564,6 +569,11 @@ namespace MyShogi.View.Win2D
             var fontSetter1 = new FontSetter(this, "ConsiderationWindow");
             //var fontSetter2 = new FontSetter(this.toolStrip1, "SubToolStrip"); // → MiniShogiBoardに移動させた。
             Disposed += (sender, args) => { fontSetter1.Dispose(); /* fontSetter2.Dispose(); */ };
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DockMiniBoardTab(miniShogiBoard1.Width, miniShogiBoard1.Height);
         }
 
         // -- test code
