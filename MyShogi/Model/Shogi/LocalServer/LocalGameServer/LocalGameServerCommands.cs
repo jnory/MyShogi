@@ -685,7 +685,7 @@ namespace MyShogi.Model.Shogi.LocalServer
             var ply = kifuManager.Tree.gamePly - 1;
             var n = kifuManager.Tree.currentNode;
             var endIndex = -1;
-            while (true)
+            while (ply >= 0)
             {
                 if (n.evalList != null)
                 {
