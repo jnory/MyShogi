@@ -1238,23 +1238,6 @@ namespace MyShogi.View.Win2D
 
                     }
 
-#if false // マスターアップに間に合わなさそう。
-                    { // ×ボタンで消していた形勢グラフウィンドウの復活
-
-                        var item = new ToolStripMenuItem();
-                        item.Text = "形勢グラフウィンドウの表示(&G)"; // eval Graph
-                        item.Click += (sender, e) =>
-                        {
-                            if (evalGraphDialog == null || evalGraphDialog.IsDisposed)
-                            {
-                                evalGraphDialog = new Info.EvalGraphDialog();
-                            }
-                            evalGraphDialog.DispatchEvalGraphUpdate(gameServer);
-                            evalGraphDialog.Visible = true;
-                        };
-                        item_window.DropDownItems.Add(item);
-                    }
-#endif
                 }
 
                 // 「ヘルプ」
