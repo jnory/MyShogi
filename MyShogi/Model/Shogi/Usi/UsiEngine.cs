@@ -104,7 +104,7 @@ namespace MyShogi.Model.Shogi.Usi
         /// bestmoveが返ってきてから次のthinkを行う。
         /// </summary>
         /// <param name="usiPositionString"></param>
-        public void Think(string usiPositionString , UsiThinkLimit limit , Color sideToMove, Kifu.KifuNode node)
+        public void Think(Kifu.KifuNode node, string usiPositionString , UsiThinkLimit limit , Color sideToMove)
         {
             if (State != UsiEngineState.InTheGame)
             {
