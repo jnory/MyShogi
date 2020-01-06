@@ -82,7 +82,7 @@ namespace MyShogi.Model.Shogi.Usi
         /// </summary>
         /// <param name="position"></param>
         /// <param name="goCommand"></param>
-        public void Think(string position,string goCommand, Kifu.KifuNode node)
+        public void Think(Kifu.KifuNode node, string position, string goCommand)
         {
             // 思考中であれば、いまのを停止させて、queueに積む
             if (Thinking)
@@ -151,7 +151,7 @@ namespace MyShogi.Model.Shogi.Usi
             // queueに積まれているのでそのThinkコマンドを叩いてやる。
             if (nextPosition != null)
             {
-                Think(nextPosition, nextGoCommand, nextNode);
+                Think(nextNode, nextPosition, nextGoCommand);
                 nextPosition = null;
                 nextGoCommand = null;
                 nextNode = null;
